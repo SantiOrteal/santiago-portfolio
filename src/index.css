@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --color-bg: #0a0e14;
+  --color-surface: #10141c;
+  --color-surface-2: #151a24;
+  /* --color-border: #212836;
+  --color-border-soft: #191f2b;
+  --color-ink: #eceef2;
+  --color-ink-muted: #8b93a7;
+  --color-ink-dim: #565e70; */
+  --color-border: #3c4868;
+  --color-border-soft: #2b3552;
+  --color-ink: #f4f5f8;
+  --color-ink-muted: #c4cbdc;
+  --color-ink-dim: #9299b0;
+  --color-blue: #5b8def;
+  --color-blue-soft: #9db8f2;
+  --color-blue-dim: #2a3550;
+
+  /* DESPUÉS */
+
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    scroll-behavior: auto;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--color-blue-dim);
+  color: var(--color-blue-soft);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-blue);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Reveal-on-scroll primitive, toggled via IntersectionObserver in useReveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(91, 141, 239, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(91, 141, 239, 0);
+  }
+}
+.status-dot {
+  animation: pulse-dot 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-40px, -40px, 0);
+  }
+}
+.bg-grid-drift {
+  animation: drift 40s linear infinite;
+}
+
+@keyframes ambient-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-60px, 40px, 0) scale(1.12);
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
