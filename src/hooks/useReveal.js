@@ -1,11 +1,16 @@
 import { useEffect, useRef } from "react";
 
+const DEFAULT_OPTIONS = {
+  threshold: 0.15,
+  rootMargin: "0px 0px -40px 0px",
+};
+
 /**
  * Adds the `is-visible` class to the element once it scrolls into view.
  * Pairs with the `.reveal` utility defined in index.css.
  * Respects prefers-reduced-motion by revealing immediately.
  */
-export function useReveal(options = {}) {
+export function useReveal(options = DEFAULT_OPTIONS) {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -28,7 +33,7 @@ export function useReveal(options = {}) {
           observer.unobserve(node);
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -40px 0px", ...options }
+      options
     );
 
     observer.observe(node);

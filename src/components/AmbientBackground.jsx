@@ -32,27 +32,44 @@ export default function AmbientBackground() {
       return;
     }
 
+    const updateGlow = () => {
+      node.style.setProperty("--glow-x", `${current.current.x * 100}%`);
+      node.style.setProperty("--glow-y", `${current.current.y * 100}%`);
+    };
+
     const handleMove = (e) => {
       target.current = {
         x: e.clientX / window.innerWidth,
         y: e.clientY / window.innerHeight,
       };
+      if (frame.current === null) frame.current = requestAnimationFrame(tick);
     };
-    window.addEventListener("pointermove", handleMove, { passive: true });
 
     const tick = () => {
       // Ease current position toward target — smooth trailing motion.
       current.current.x += (target.current.x - current.current.x) * 0.06;
       current.current.y += (target.current.y - current.current.y) * 0.06;
-      node.style.setProperty("--glow-x", `${current.current.x * 100}%`);
-      node.style.setProperty("--glow-y", `${current.current.y * 100}%`);
-      frame.current = requestAnimationFrame(tick);
+      updateGlow();
+
+      const remainingDistance = Math.max(
+        Math.abs(target.current.x - current.current.x),
+        Math.abs(target.current.y - current.current.y)
+      );
+
+      if (remainingDistance > 0.001) {
+        frame.current = requestAnimationFrame(tick);
+      } else {
+        current.current = { ...target.current };
+        updateGlow();
+        frame.current = null;
+      }
     };
-    frame.current = requestAnimationFrame(tick);
+
+    window.addEventListener("pointermove", handleMove, { passive: true });
 
     return () => {
       window.removeEventListener("pointermove", handleMove);
-      if (frame.current) cancelAnimationFrame(frame.current);
+      if (frame.current !== null) cancelAnimationFrame(frame.current);
     };
   }, []);
 

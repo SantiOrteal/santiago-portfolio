@@ -7,19 +7,6 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-screen items-center overflow-hidden border-b border-border-soft px-6 pt-28 pb-20 md:px-10"
     >
-      {/* fondo tipo "blueprint": grid muy sutil + resplandor azul */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className="bg-grid-drift absolute -inset-x-10 -inset-y-10 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(to right, #5b8def 1px, transparent 1px), linear-gradient(to bottom, #5b8def 1px, transparent 1px)",
-            backgroundSize: "56px 56px",
-          }}
-        />
-        <div className="absolute left-1/2 top-1/3 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-blue/10 blur-[120px]" />
-      </div>
-
       <div className="mx-auto w-full max-w-6xl">
         <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/60 px-4 py-1.5">
           <span className="status-dot h-1.5 w-1.5 rounded-full bg-blue" />
