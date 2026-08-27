@@ -1,17 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
-import { profile } from "../data/content";
-
-const links = [
-  { href: "#about", label: "Sobre mí" },
-  { href: "#skills", label: "Habilidades" },
-  { href: "#experience", label: "Experiencia" },
-  { href: "#projects", label: "Proyectos" },
-  { href: "#contact", label: "Contacto" },
-];
+import { getContent, profile } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Nav() {
+  const { language, setLanguage } = useLanguage();
+  const content = getContent(language);
+  const links = [
+    { href: "#about", label: content.nav.about },
+    { href: "#skills", label: content.nav.skills },
+    { href: "#experience", label: content.nav.experience },
+    { href: "#projects", label: content.nav.projects },
+    { href: "#contact", label: content.nav.contact },
+  ];
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const isScrolledRef = useRef(false);
@@ -76,12 +78,13 @@ export default function Nav() {
           >
             <LinkedinIcon size={18} />
           </a>
+          <LanguageSwitch language={language} setLanguage={setLanguage} />
         </div>
 
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-label={open ? content.nav.closeMenu : content.nav.openMenu}
           aria-expanded={open}
           className="text-ink md:hidden"
         >
@@ -126,9 +129,24 @@ export default function Nav() {
                 <LinkedinIcon size={20} />
               </a>
             </div>
+            <LanguageSwitch language={language} setLanguage={setLanguage} />
           </div>
         </nav>
       )}
     </header>
+  );
+}
+
+function LanguageSwitch({ language, setLanguage }) {
+  return (
+    <div className="flex items-center gap-2 font-mono text-[11px]" aria-label="Language selector">
+      <button type="button" onClick={() => setLanguage("es-MX")} className={language === "es-MX" ? "text-blue" : "text-ink-dim transition-colors hover:text-ink"}>
+        ES-MX
+      </button>
+      <span className="text-border">/</span>
+      <button type="button" onClick={() => setLanguage("en")} className={language === "en" ? "text-blue" : "text-ink-dim transition-colors hover:text-ink"}>
+        EN
+      </button>
+    </div>
   );
 }

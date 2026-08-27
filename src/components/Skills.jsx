@@ -1,5 +1,6 @@
 import { useReveal } from "../hooks/useReveal";
-import { skillGroups } from "../data/content";
+import { getContent } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 
 function SkillGroup({ group, index }) {
@@ -33,21 +34,22 @@ function SkillGroup({ group, index }) {
 }
 
 export default function Skills() {
+  const { language } = useLanguage();
+  const { skills } = getContent(language);
   return (
     <section
       id="skills"
       className="border-b border-border-soft px-6 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionLabel>Habilidades técnicas</SectionLabel>
+        <SectionLabel>{skills.label}</SectionLabel>
 
         <h2 className="text-balance mt-6 max-w-2xl font-display text-3xl font-medium leading-tight text-ink md:text-4xl">
-          Un stack pensado para construir y para entender qué pasa en
-          producción.
+          {skills.heading}
         </h2>
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {skillGroups.map((group, i) => (
+          {skills.groups.map((group, i) => (
             <SkillGroup key={group.title} group={group} index={i} />
           ))}
         </div>

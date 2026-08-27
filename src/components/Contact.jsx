@@ -2,11 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { Check, Copy, Mail } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 import { useReveal } from "../hooks/useReveal";
-import { contact, profile } from "../data/content";
+import { getContent, profile } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 
 export default function Contact() {
   const revealRef = useReveal();
+  const { language } = useLanguage();
+  const { contact } = getContent(language);
   const [copied, setCopied] = useState(false);
   const copyTimeoutRef = useRef(null);
 
@@ -38,7 +41,7 @@ export default function Contact() {
   return (
     <section id="contact" className="px-6 py-24 md:px-10 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <SectionLabel>Contacto</SectionLabel>
+        <SectionLabel>{contact.label}</SectionLabel>
 
         <div ref={revealRef} className="reveal mt-10">
           <h2 className="text-balance max-w-2xl font-display text-3xl font-medium leading-tight text-ink md:text-5xl">
@@ -52,6 +55,7 @@ export default function Contact() {
             <button
               type="button"
               onClick={handleCopy}
+              aria-label={copied ? contact.copiedLabel : contact.copyLabel}
               className="group inline-flex items-center gap-3 rounded-md border border-border bg-surface px-5 py-3.5 font-mono text-[13px] text-ink transition-colors duration-200 hover:border-blue"
             >
               <Mail size={16} strokeWidth={1.75} className="text-blue" />
@@ -74,7 +78,7 @@ export default function Contact() {
               className="inline-flex items-center gap-2.5 rounded-md border border-border px-5 py-3.5 font-mono text-[13px] text-ink transition-colors duration-200 hover:border-blue hover:text-blue"
             >
               <GithubIcon size={16} />
-              GitHub
+              {contact.githubLabel}
             </a>
 
             <a
@@ -84,7 +88,7 @@ export default function Contact() {
               className="inline-flex items-center gap-2.5 rounded-md border border-border px-5 py-3.5 font-mono text-[13px] text-ink transition-colors duration-200 hover:border-blue hover:text-blue"
             >
               <LinkedinIcon size={16} />
-              LinkedIn
+              {contact.linkedinLabel}
             </a>
           </div>
         </div>

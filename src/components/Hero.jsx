@@ -1,7 +1,10 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import { hero } from "../data/content";
+import { getContent } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function Hero() {
+  const { language } = useLanguage();
+  const { hero } = getContent(language);
   return (
     <section
       id="top"
@@ -31,7 +34,7 @@ export default function Hero() {
             href="#projects"
             className="group inline-flex items-center gap-2 rounded-md bg-blue px-5 py-3 font-mono text-[13px] font-medium text-bg transition-transform duration-200 hover:-translate-y-0.5"
           >
-            Ver proyectos
+            {hero.projectsCta}
             <ArrowUpRight
               size={15}
               strokeWidth={2}
@@ -42,7 +45,7 @@ export default function Hero() {
             href="#contact"
             className="inline-flex items-center gap-2 rounded-md border border-border px-5 py-3 font-mono text-[13px] font-medium text-ink transition-colors duration-200 hover:border-blue hover:text-blue"
           >
-            Contactar
+            {hero.contactCta}
           </a>
         </div>
 
@@ -60,7 +63,7 @@ export default function Hero() {
 
       <a
         href="#about"
-        aria-label="Ir a la sección Sobre mí"
+        aria-label={hero.scrollLabel}
         className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 rounded-full border border-border bg-surface/70 p-2.5 text-ink-muted backdrop-blur-sm transition-colors hover:border-blue hover:text-blue md:block"
       >
         <ArrowDown size={16} strokeWidth={1.5} />

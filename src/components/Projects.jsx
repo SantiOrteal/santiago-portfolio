@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
-import { projects } from "../data/content";
+import { getContent } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 
 function ProjectCard({ project, index }) {
@@ -49,20 +50,22 @@ function ProjectCard({ project, index }) {
 }
 
 export default function Projects() {
+  const { language } = useLanguage();
+  const { projects } = getContent(language);
   return (
     <section
       id="projects"
       className="border-b border-border-soft px-6 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionLabel>Proyectos destacados</SectionLabel>
+        <SectionLabel>{projects.label}</SectionLabel>
 
         <h2 className="text-balance mt-6 max-w-2xl font-display text-3xl font-medium leading-tight text-ink md:text-4xl">
-          Proyectos personales para seguir aprendiendo fuera del día a día.
+          {projects.heading}
         </h2>
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
-          {projects.map((project, i) => (
+          {projects.items.map((project, i) => (
             <ProjectCard key={project.title} project={project} index={i} />
           ))}
         </div>

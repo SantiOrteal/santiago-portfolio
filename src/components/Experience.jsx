@@ -1,5 +1,6 @@
 import { useReveal } from "../hooks/useReveal";
-import { experience } from "../data/content";
+import { getContent } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 
 function ExperienceItem({ item, isLast }) {
@@ -38,24 +39,26 @@ function ExperienceItem({ item, isLast }) {
 }
 
 export default function Experience() {
+  const { language } = useLanguage();
+  const { experience } = getContent(language);
   return (
     <section
       id="experience"
       className="border-b border-border-soft px-6 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionLabel>Experiencia</SectionLabel>
+        <SectionLabel>{experience.label}</SectionLabel>
 
         <h2 className="text-balance mt-6 max-w-2xl font-display text-3xl font-medium leading-tight text-ink md:text-4xl">
-          De los primeros pasos en React a sostener operaciones reales.
+          {experience.heading}
         </h2>
 
         <div className="mt-14 max-w-3xl">
-          {experience.map((item, i) => (
+          {experience.items.map((item, i) => (
             <ExperienceItem
               key={item.period}
               item={item}
-              isLast={i === experience.length - 1}
+              isLast={i === experience.items.length - 1}
             />
           ))}
         </div>

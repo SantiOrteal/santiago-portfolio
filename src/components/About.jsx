@@ -1,9 +1,12 @@
 import { useReveal } from "../hooks/useReveal";
-import { about } from "../data/content";
+import { getContent } from "../data/content";
+import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 
 export default function About() {
   const revealRef = useReveal();
+  const { language } = useLanguage();
+  const { about } = getContent(language);
 
   return (
     <section
@@ -11,7 +14,7 @@ export default function About() {
       className="border-b border-border-soft px-6 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionLabel>Sobre mí</SectionLabel>
+        <SectionLabel>{about.label}</SectionLabel>
 
         <div
           ref={revealRef}
