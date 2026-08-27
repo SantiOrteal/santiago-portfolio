@@ -1,31 +1,33 @@
+import { Database, Network, Workflow } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 import homelabStack from "../assets/homelab-stack.svg";
 
+const groupIcons = [Network, Workflow, Database];
+
 function HomelabGroup({ group, index }) {
-  const revealRef = useReveal();
+  const Icon = groupIcons[index];
 
   return (
     <article
-      ref={revealRef}
-      className="reveal rounded-lg border border-border bg-surface p-6 transition-colors duration-300 hover:border-blue-dim"
-      style={{ transitionDelay: `${index * 80}ms` }}
+      className="border-t border-border-soft pt-5"
     >
-      <h3 className="font-display text-lg font-medium text-ink">
-        {group.title}
-      </h3>
-      <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">
+      <div className="flex items-center gap-3">
+        <Icon size={18} strokeWidth={1.75} className="text-blue" aria-hidden="true" />
+        <h3 className="font-display text-lg font-medium text-ink">
+          {group.title}
+        </h3>
+      </div>
+      <p className="mt-3 text-[14px] leading-relaxed text-ink-muted">
         {group.description}
       </p>
-      <ul className="mt-5 flex flex-wrap gap-2">
+      <ul className="mt-5 space-y-2.5">
         {group.services.map((service) => (
-          <li
-            key={service}
-            className="rounded-full border border-border-soft bg-surface-2 px-3 py-1.5 font-mono text-[12.5px] text-ink-muted"
-          >
-            {service}
+          <li key={service} className="flex items-center gap-2 font-mono text-[12px] text-ink-muted">
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue-dim" aria-hidden="true" />
+            <span>{service}</span>
           </li>
         ))}
       </ul>
@@ -46,28 +48,30 @@ export default function Homelab() {
       <div className="mx-auto max-w-6xl">
         <SectionLabel>{homelab.label}</SectionLabel>
 
-        <div ref={revealRef} className="reveal mt-6 max-w-3xl">
-          <h2 className="text-balance font-display text-3xl font-medium leading-tight text-ink md:text-4xl">
-            {homelab.heading}
-          </h2>
-          <p className="mt-5 text-[15px] leading-relaxed text-ink-muted md:text-base">
-            {homelab.intro}
-          </p>
+        <div className="mt-6 grid items-center gap-10 lg:grid-cols-[1fr_0.72fr] lg:gap-16">
+          <div ref={revealRef} className="reveal max-w-3xl">
+            <h2 className="text-balance font-display text-3xl font-medium leading-tight text-ink md:text-4xl">
+              {homelab.heading}
+            </h2>
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-muted md:text-base">
+              {homelab.intro}
+            </p>
+          </div>
+
+          <img
+            src={homelabStack}
+            alt="Abstract server rack representing a personal homelab"
+            className="w-full max-h-44 rounded-xl border border-border object-contain opacity-95"
+          />
         </div>
 
-        <img
-          src={homelabStack}
-          alt="Abstract diagram of connected homelab infrastructure"
-          className="mt-10 w-full rounded-xl border border-border opacity-95"
-        />
-
-        <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="mt-14 grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">
           {homelab.groups.map((group, index) => (
             <HomelabGroup key={group.title} group={group} index={index} />
           ))}
         </div>
 
-        <p className="mt-10 max-w-3xl border-l-2 border-blue-dim pl-5 text-[15px] leading-relaxed text-blue-soft md:text-base">
+        <p className="mt-12 max-w-3xl border-t border-border-soft pt-6 text-[15px] leading-relaxed text-blue-soft md:text-base">
           {homelab.outro}
         </p>
       </div>
