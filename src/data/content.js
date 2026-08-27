@@ -13,6 +13,11 @@ export const profile = {
 
 const localizedContent = {
   "es-MX": {
+    seo: {
+      title: "Santiago Ortega | Full Stack Developer en México",
+      description:
+        "Portafolio de Santiago Ortega, Full Stack Developer especializado en React, TypeScript, Node.js, sistemas empresariales y homelab.",
+    },
     nav: {
       about: "Sobre mí",
       skills: "Habilidades",
@@ -199,6 +204,11 @@ const localizedContent = {
     },
   },
   en: {
+    seo: {
+      title: "Santiago Ortega | Full Stack Developer",
+      description:
+        "Portfolio of Santiago Ortega, Full Stack Developer focused on React, TypeScript, Node.js, enterprise systems, and homelab infrastructure.",
+    },
     nav: {
       about: "About",
       skills: "Skills",

@@ -8,12 +8,14 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import AmbientBackground from "./components/AmbientBackground";
 import BlueprintBackground from "./components/BlueprintBackground";
+import Seo from "./components/Seo";
 
 export default function App() {
   return (
     <div className="min-h-screen bg-bg text-ink selection:bg-blue-dim">
       <BlueprintBackground />
       <AmbientBackground />
+      <Seo />
       <Nav />
       <main className="relative z-10">
         <Hero />

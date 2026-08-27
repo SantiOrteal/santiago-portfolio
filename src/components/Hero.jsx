@@ -1,6 +1,7 @@
 import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
+import heroNetwork from "../assets/hero-network.svg";
 
 export default function Hero() {
   const { language } = useLanguage();
@@ -10,26 +11,27 @@ export default function Hero() {
       id="top"
       className="relative flex min-h-screen items-center overflow-hidden border-b border-border-soft px-6 pt-28 pb-20 md:px-10"
     >
-      <div className="mx-auto w-full max-w-6xl">
-        <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/60 px-4 py-1.5">
-          <span className="status-dot h-1.5 w-1.5 rounded-full bg-blue" />
-          <span className="font-mono text-[12px] tracking-wide text-ink">
-            {hero.eyebrow}
-          </span>
-        </div>
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+        <div>
+          <div className="mb-8 inline-flex items-center gap-2.5 rounded-full border border-border bg-surface/60 px-4 py-1.5">
+            <span className="status-dot h-1.5 w-1.5 rounded-full bg-blue" />
+            <span className="font-mono text-[12px] tracking-wide text-ink">
+              {hero.eyebrow}
+            </span>
+          </div>
 
-        <h1
-          className="font-display text-balance max-w-4xl font-semibold leading-[1.05] tracking-tight text-ink"
-          style={{ fontSize: "clamp(2.25rem, 5.5vw, 4.5rem)" }}
-        >
-          {hero.headline}
-        </h1>
+          <h1
+            className="font-display text-balance max-w-4xl font-semibold leading-[1.05] tracking-tight text-ink"
+            style={{ fontSize: "clamp(2.25rem, 5.5vw, 4.5rem)" }}
+          >
+            {hero.headline}
+          </h1>
 
-        <p className="mt-8 max-w-xl text-balance text-base leading-relaxed text-ink-muted md:text-lg">
-          {hero.subline}
-        </p>
+          <p className="mt-8 max-w-xl text-balance text-base leading-relaxed text-ink-muted md:text-lg">
+            {hero.subline}
+          </p>
 
-        <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href="#projects"
             className="group inline-flex items-center gap-2 rounded-md bg-blue px-5 py-3 font-mono text-[13px] font-medium text-bg transition-transform duration-200 hover:-translate-y-0.5"
@@ -47,9 +49,9 @@ export default function Hero() {
           >
             {hero.contactCta}
           </a>
-        </div>
+          </div>
 
-        <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border-soft pt-6 font-mono text-[12px] text-ink">
+          <div className="mt-16 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-border-soft pt-6 font-mono text-[12px] text-ink">
           {hero.meta.map((item, i) => (
             <span key={item} className="flex items-center gap-6">
               {item}
@@ -58,7 +60,14 @@ export default function Hero() {
               )}
             </span>
           ))}
+          </div>
         </div>
+
+        <img
+          src={heroNetwork}
+          alt="Abstract network diagram representing connected systems"
+          className="w-full max-w-xl justify-self-end rounded-xl border border-border opacity-90 shadow-2xl shadow-blue/5"
+        />
       </div>
 
       <a

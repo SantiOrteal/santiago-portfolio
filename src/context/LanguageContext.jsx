@@ -4,6 +4,10 @@ const STORAGE_KEY = "santiago-portfolio-language";
 const defaultLanguage = "en";
 
 function getInitialLanguage() {
+  const pathLanguage = window.location.pathname.toLowerCase();
+  if (pathLanguage.startsWith("/es-mx")) return "es-MX";
+  if (pathLanguage.startsWith("/en")) return "en";
+
   const savedLanguage = localStorage.getItem(STORAGE_KEY);
   if (savedLanguage === "es-MX" || savedLanguage === "en") return savedLanguage;
   return navigator.language.toLowerCase().startsWith("es") ? "es-MX" : defaultLanguage;
@@ -21,6 +25,8 @@ export function LanguageProvider({ children }) {
   const setLanguage = (nextLanguage) => {
     setLanguageState(nextLanguage);
     localStorage.setItem(STORAGE_KEY, nextLanguage);
+    const nextPath = nextLanguage === "es-MX" ? "/es-mx/" : "/en/";
+    window.history.replaceState({}, "", nextPath);
   };
 
   return (

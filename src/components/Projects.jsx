@@ -3,6 +3,11 @@ import { useReveal } from "../hooks/useReveal";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
+import projectDashboard from "../assets/project-dashboard.svg";
+import projectPulse from "../assets/project-pulse.svg";
+import projectKit from "../assets/project-kit.svg";
+
+const projectImages = [projectDashboard, projectPulse, projectKit];
 
 function ProjectCard({ project, index }) {
   const revealRef = useReveal();
@@ -15,6 +20,12 @@ function ProjectCard({ project, index }) {
       className="reveal group flex flex-col rounded-lg border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-blue-dim"
       style={{ transitionDelay: `${index * 80}ms` }}
     >
+      <img
+        src={projectImages[index]}
+        alt=""
+        aria-hidden="true"
+        className="mb-6 aspect-video w-full rounded-md border border-border-soft object-cover"
+      />
       <div className="mb-6 flex items-start justify-between gap-3">
         <span className="font-mono text-[11px] uppercase tracking-wide text-ink-dim">
           {project.kind}

@@ -2,6 +2,7 @@ import { useReveal } from "../hooks/useReveal";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
+import avatarAbstract from "../assets/avatar-abstract.svg";
 
 export default function About() {
   const revealRef = useReveal();
@@ -35,7 +36,13 @@ export default function About() {
             ))}
           </div>
 
-          <div className="rounded-lg border border-border bg-surface p-6">
+          <div className="space-y-5">
+            <img
+              src={avatarAbstract}
+              alt="Abstract geometric profile illustration"
+              className="w-full rounded-xl border border-border object-cover"
+            />
+            <div className="rounded-lg border border-border bg-surface p-6">
             <div className="mb-5 flex items-center gap-2 border-b border-border-soft pb-4">
               <span className="h-2.5 w-2.5 rounded-full bg-[#3a4152]" />
               <span className="h-2.5 w-2.5 rounded-full bg-[#3a4152]" />
@@ -55,6 +62,7 @@ export default function About() {
                 </div>
               ))}
             </dl>
+            </div>
           </div>
         </div>
       </div>

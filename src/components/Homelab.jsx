@@ -2,6 +2,7 @@ import { useReveal } from "../hooks/useReveal";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
+import homelabStack from "../assets/homelab-stack.svg";
 
 function HomelabGroup({ group, index }) {
   const revealRef = useReveal();
@@ -53,6 +54,12 @@ export default function Homelab() {
             {homelab.intro}
           </p>
         </div>
+
+        <img
+          src={homelabStack}
+          alt="Abstract diagram of connected homelab infrastructure"
+          className="mt-10 w-full rounded-xl border border-border opacity-95"
+        />
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-2">
           {homelab.groups.map((group, index) => (

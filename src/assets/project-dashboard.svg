@@ -1,0 +1,6 @@
+<svg width="640" height="360" viewBox="0 0 640 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="360" rx="18" fill="#151A24"/><rect x="28" y="28" width="584" height="304" rx="8" fill="#10141C" stroke="#3C4868"/>
+  <path d="M48 86H592M48 136H592M48 186H592M48 236H592M48 286H592M168 48V312M288 48V312M408 48V312M528 48V312" stroke="#2B3552"/>
+  <path d="M70 258L132 222L190 240L250 166L312 196L372 122L430 154L492 98L570 126" stroke="#5B8DEF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="372" cy="122" r="7" fill="#9DB8F2"/><circle cx="492" cy="98" r="7" fill="#9DB8F2"/>
+  <rect x="48" y="48" width="74" height="18" rx="3" fill="#2A3550"/><text x="60" y="61" fill="#9DB8F2" font-family="monospace" font-size="9">LIVE DATA</text>
+</svg>
