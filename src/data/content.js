@@ -16,6 +16,7 @@ const localizedContent = {
     nav: {
       about: "Sobre mí",
       skills: "Habilidades",
+      homelab: "Homelab",
       experience: "Experiencia",
       projects: "Proyectos",
       contact: "Contacto",
@@ -91,6 +92,32 @@ const localizedContent = {
           ],
         },
       ],
+    },
+
+    homelab: {
+      label: "Personal Homelab",
+      heading: "Un laboratorio personal para aprender construyendo.",
+      intro:
+        "Mantengo mi propio homelab basado en CasaOS, Linux y Docker, donde alojo y administro mis propios servicios para experimentar con infraestructura, automatización, seguridad, networking e IoT.",
+      groups: [
+        {
+          title: "Infraestructura & Networking",
+          description: "Administración, acceso remoto y protección de servicios.",
+          services: ["CasaOS + Docker", "Tailscale + Cloudflare Tunnel", "Nginx Proxy Manager", "Pi-hole"],
+        },
+        {
+          title: "Automatización & IoT",
+          description: "Integración de servicios y comunicación con dispositivos.",
+          services: ["n8n + Node-RED", "Home Assistant", "MQTT / Mosquitto", "ESP32"],
+        },
+        {
+          title: "Self-hosted Services",
+          description: "Servicios propios para datos, archivos y seguridad personal.",
+          services: ["Immich", "Nextcloud", "Vaultwarden", "Authelia"],
+        },
+      ],
+      outro:
+        "Mi homelab funciona como un laboratorio personal donde aprendo, experimento y aplico conceptos de desarrollo, infraestructura y DevOps en proyectos reales.",
     },
 
     experience: {
@@ -175,6 +202,7 @@ const localizedContent = {
     nav: {
       about: "About",
       skills: "Skills",
+      homelab: "Homelab",
       experience: "Experience",
       projects: "Projects",
       contact: "Contact",
@@ -237,6 +265,32 @@ const localizedContent = {
           skills: ["NetSuite", "Dynatrace", "Kibana", "DataStax"],
         },
       ],
+    },
+
+    homelab: {
+      label: "Personal Homelab",
+      heading: "A personal lab for learning by building.",
+      intro:
+        "I maintain my own homelab based on CasaOS, Linux, and Docker, where I self-host services to experiment with infrastructure, automation, security, networking, and IoT.",
+      groups: [
+        {
+          title: "Infrastructure & Networking",
+          description: "Service administration, remote access, and protection.",
+          services: ["CasaOS + Docker", "Tailscale + Cloudflare Tunnel", "Nginx Proxy Manager", "Pi-hole"],
+        },
+        {
+          title: "Automation & IoT",
+          description: "Service integration and communication with devices.",
+          services: ["n8n + Node-RED", "Home Assistant", "MQTT / Mosquitto", "ESP32"],
+        },
+        {
+          title: "Self-hosted Services",
+          description: "Personal services for data, files, and security.",
+          services: ["Immich", "Nextcloud", "Vaultwarden", "Authelia"],
+        },
+      ],
+      outro:
+        "My homelab is a personal laboratory where I learn, experiment, and apply development, infrastructure, and DevOps concepts to real projects.",
     },
     experience: {
       label: "Experience",

@@ -10,6 +10,7 @@ export default function Nav() {
   const links = [
     { href: "#about", label: content.nav.about },
     { href: "#skills", label: content.nav.skills },
+    { href: "#homelab", label: content.nav.homelab },
     { href: "#experience", label: content.nav.experience },
     { href: "#projects", label: content.nav.projects },
     { href: "#contact", label: content.nav.contact },

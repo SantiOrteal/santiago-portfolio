@@ -2,6 +2,7 @@ import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Skills from "./components/Skills";
+import Homelab from "./components/Homelab";
 import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
@@ -18,6 +19,7 @@ export default function App() {
         <Hero />
         <About />
         <Skills />
+        <Homelab />
         <Experience />
         <Projects />
         <Contact />
