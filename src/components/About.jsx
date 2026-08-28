@@ -19,9 +19,9 @@ export default function About() {
 
         <div
           ref={revealRef}
-          className="reveal mt-10 grid grid-cols-1 gap-14 md:grid-cols-[1.3fr_1fr] md:gap-16"
+          className="reveal mt-10"
         >
-          <div className="space-y-6">
+          <div className="max-w-4xl space-y-6">
             {about.paragraphs.map((p, i) => (
               <p
                 key={i}
@@ -36,32 +36,34 @@ export default function About() {
             ))}
           </div>
 
-          <div className="space-y-5">
-            <img
-              src={avatarAbstract}
-              alt="Abstract geometric profile illustration"
-              className="w-full rounded-xl border border-border object-cover"
-            />
-            <div className="rounded-lg border border-border bg-surface p-6">
-            <div className="mb-5 flex items-center gap-2 border-b border-border-soft pb-4">
-              <span className="h-2.5 w-2.5 rounded-full bg-[#3a4152]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-[#3a4152]" />
-              <span className="h-2.5 w-2.5 rounded-full bg-blue-dim" />
-              <span className="ml-2 font-mono text-[11px] text-ink-dim">
-                {about.card.label}
-              </span>
+          <div className="mt-16 grid items-start gap-10 border-t border-border-soft pt-10 md:grid-cols-[180px_minmax(0,520px)] md:gap-14">
+            <div className="flex justify-center md:justify-start">
+              <img
+                src={avatarAbstract}
+                alt="Abstract geometric profile illustration"
+                className="w-full max-w-36 rounded-xl border border-border object-cover md:max-w-44"
+              />
             </div>
-            <dl className="space-y-3.5">
-              {about.card.lines.map((line) => (
-                <div
-                  key={line.k}
-                  className="flex items-baseline justify-between gap-4 font-mono text-[13px]"
-                >
-                  <dt className="text-ink-dim">{line.k}</dt>
-                  <dd className="text-right text-blue-soft">{line.v}</dd>
-                </div>
-              ))}
-            </dl>
+            <div className="rounded-lg border border-border bg-surface p-6 md:mt-1">
+              <div className="mb-5 flex items-center gap-2 border-b border-border-soft pb-4">
+                <span className="h-2.5 w-2.5 rounded-full bg-[#3a4152]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-[#3a4152]" />
+                <span className="h-2.5 w-2.5 rounded-full bg-blue-dim" />
+                <span className="ml-2 font-mono text-[11px] text-ink-dim">
+                  {about.card.label}
+                </span>
+              </div>
+              <dl className="space-y-3.5">
+                {about.card.lines.map((line) => (
+                  <div
+                    key={line.k}
+                    className="flex items-baseline justify-between gap-4 font-mono text-[13px]"
+                  >
+                    <dt className="text-ink-dim">{line.k}</dt>
+                    <dd className="text-right text-blue-soft">{line.v}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           </div>
         </div>
