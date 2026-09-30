@@ -72,7 +72,11 @@ export default function Contact() {
           />
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -right-8 -top-8 h-40 w-40 animate-[float-y_6s_ease-in-out_infinite] rounded-full bg-gradient-to-br from-blue/25 to-violet/10 blur-2xl md:h-56 md:w-56"
+            className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 animate-[float-y_6s_ease-in-out_infinite] rounded-full will-change-transform md:h-80 md:w-80"
+            style={{
+              background:
+                "radial-gradient(closest-side, rgba(91,141,239,0.28), rgba(155,135,245,0.1) 55%, transparent)",
+            }}
           />
 
           <div ref={revealRef} className="reveal-stagger relative">

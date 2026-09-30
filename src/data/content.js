@@ -50,6 +50,11 @@ const localizedContent = {
 
     about: {
       label: "Sobre mí",
+      stats: {
+        years: "años construyendo software",
+        tech: "tecnologías en mi stack",
+        services: "servicios en mi homelab",
+      },
       paragraphs: [
         "Soy desarrollador Full Stack, con una fuerte orientación hacia el desarrollo frontend. Trabajo principalmente con React, JavaScript y TypeScript, creando interfaces donde la experiencia de usuario, el rendimiento y la claridad importan.",
         "Actualmente trabajo dentro de operaciones de Supply Chain, participando en procesos de Warehouse, Logistics y Purchasing. Mi trabajo combina desarrollo, resolución de problemas y análisis de sistemas empresariales, utilizando tecnologías como Dynatrace, Kibana y DataStax.",
@@ -60,7 +65,6 @@ const localizedContent = {
         lines: [
           { k: "rol", v: "Full Stack Developer" },
           { k: "desde", v: "2019" },
-          { k: "experiencia", v: `${new Date().getFullYear() - 2019}+ años` },
           { k: "frontend", v: "React · TypeScript" },
           { k: "backend", v: "Node.js · Java" },
           { k: "base", v: "México" },
@@ -278,6 +282,11 @@ const localizedContent = {
     marqueeLabel: "Technologies I work with",
     about: {
       label: "About me",
+      stats: {
+        years: "years building software",
+        tech: "technologies in my stack",
+        services: "services in my homelab",
+      },
       paragraphs: [
         "I am a Full Stack developer with a strong focus on frontend development. I mainly work with React, JavaScript, and TypeScript, creating interfaces where user experience, performance, and clarity matter.",
         "I currently work in Supply Chain operations, supporting Warehouse, Logistics, and Purchasing processes. My work combines development, problem-solving, and enterprise systems analysis using technologies such as Dynatrace, Kibana, and DataStax.",
@@ -288,7 +297,6 @@ const localizedContent = {
         lines: [
           { k: "role", v: "Full Stack Developer" },
           { k: "since", v: "2019" },
-          { k: "experience", v: `${new Date().getFullYear() - 2019}+ years` },
           { k: "frontend", v: "React · TypeScript" },
           { k: "backend", v: "Node.js · Java" },
           { k: "base", v: "Mexico" },

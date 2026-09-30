@@ -15,13 +15,25 @@ export function useSpotlight() {
     const node = ref.current;
     if (!node || !canHover()) return;
 
-    const onMove = (e) => {
+    // Pointer events can fire faster than the screen refreshes; write the
+    // CSS variables at most once per frame.
+    let frame = null;
+    let last = null;
+    const flush = () => {
+      frame = null;
       const rect = node.getBoundingClientRect();
-      node.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-      node.style.setProperty("--my", `${e.clientY - rect.top}px`);
+      node.style.setProperty("--mx", `${last.clientX - rect.left}px`);
+      node.style.setProperty("--my", `${last.clientY - rect.top}px`);
+    };
+    const onMove = (e) => {
+      last = e;
+      if (frame === null) frame = requestAnimationFrame(flush);
     };
     node.addEventListener("pointermove", onMove, { passive: true });
-    return () => node.removeEventListener("pointermove", onMove);
+    return () => {
+      node.removeEventListener("pointermove", onMove);
+      if (frame !== null) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return ref;

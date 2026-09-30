@@ -1,0 +1,8 @@
+# Keep LF everywhere so Windows Git and WSL Git see the same files
+* text=auto eol=lf
+
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.ico binary

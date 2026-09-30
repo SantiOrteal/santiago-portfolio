@@ -1,75 +1,70 @@
 import { useEffect, useRef } from "react";
 
+const GLOW_SIZE = 720;
+
 /**
  * Fixed, full-page ambient background: a soft blue glow that eases toward
- * the pointer position, plus a second, slower blob that drifts on its own
- * so the page still feels alive without a mouse (touch devices) or when
- * the cursor is idle. Purely decorative — sits behind all content and
- * never intercepts clicks.
+ * the pointer, plus two blobs that drift on their own so the page still
+ * feels alive on touch devices or when the cursor is idle. Purely
+ * decorative — sits behind all content and never intercepts clicks.
  *
- * Disabled (replaced by a static glow) when the user has no fine pointer
- * or prefers reduced motion, so it never fights accessibility settings.
+ * Performance: the glows are radial gradients (no `filter: blur`) and move
+ * only through `transform`, so the browser composites them on the GPU
+ * instead of re-blurring a huge area on every frame.
+ *
+ * Static when the user has no fine pointer or prefers reduced motion.
  */
 export default function AmbientBackground() {
   const glowRef = useRef(null);
-  const target = useRef({ x: 0.5, y: 0.35 });
-  const current = useRef({ x: 0.5, y: 0.35 });
-  const frame = useRef(null);
 
   useEffect(() => {
     const node = glowRef.current;
     if (!node) return;
+
+    const place = (x, y) => {
+      node.style.transform = `translate3d(${x - GLOW_SIZE / 2}px, ${y - GLOW_SIZE / 2}px, 0)`;
+    };
 
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
     const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
 
-    if (prefersReduced || !hasFinePointer) {
-      // Static, gentle placement — no animation loop, no listeners.
-      node.style.setProperty("--glow-x", "62%");
-      node.style.setProperty("--glow-y", "18%");
-      return;
-    }
+    const current = { x: window.innerWidth * 0.62, y: window.innerHeight * 0.18 };
+    place(current.x, current.y);
+    if (prefersReduced || !hasFinePointer) return;
 
-    const updateGlow = () => {
-      node.style.setProperty("--glow-x", `${current.current.x * 100}%`);
-      node.style.setProperty("--glow-y", `${current.current.y * 100}%`);
-    };
+    const target = { ...current };
+    let frame = null;
+    let last = 0;
 
-    const handleMove = (e) => {
-      target.current = {
-        x: e.clientX / window.innerWidth,
-        y: e.clientY / window.innerHeight,
-      };
-      if (frame.current === null) frame.current = requestAnimationFrame(tick);
-    };
+    const tick = (now) => {
+      // Frame-rate independent easing: same feel at 60 Hz and 144 Hz.
+      const dt = last ? Math.min(64, now - last) : 16.67;
+      last = now;
+      const k = 1 - Math.pow(1 - 0.14, dt / 16.67);
+      current.x += (target.x - current.x) * k;
+      current.y += (target.y - current.y) * k;
+      place(current.x, current.y);
 
-    const tick = () => {
-      // Ease current position toward target — smooth trailing motion.
-      current.current.x += (target.current.x - current.current.x) * 0.06;
-      current.current.y += (target.current.y - current.current.y) * 0.06;
-      updateGlow();
-
-      const remainingDistance = Math.max(
-        Math.abs(target.current.x - current.current.x),
-        Math.abs(target.current.y - current.current.y)
-      );
-
-      if (remainingDistance > 0.001) {
-        frame.current = requestAnimationFrame(tick);
+      if (Math.abs(target.x - current.x) + Math.abs(target.y - current.y) > 0.5) {
+        frame = requestAnimationFrame(tick);
       } else {
-        current.current = { ...target.current };
-        updateGlow();
-        frame.current = null;
+        frame = null;
+        last = 0;
       }
     };
 
-    window.addEventListener("pointermove", handleMove, { passive: true });
+    const handleMove = (e) => {
+      target.x = e.clientX;
+      target.y = e.clientY;
+      if (frame === null) frame = requestAnimationFrame(tick);
+    };
 
+    window.addEventListener("pointermove", handleMove, { passive: true });
     return () => {
       window.removeEventListener("pointermove", handleMove);
-      if (frame.current !== null) cancelAnimationFrame(frame.current);
+      if (frame !== null) cancelAnimationFrame(frame);
     };
   }, []);
 
@@ -81,16 +76,29 @@ export default function AmbientBackground() {
       {/* trails the cursor */}
       <div
         ref={glowRef}
-        className="absolute h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.22] blur-[100px]"
+        className="absolute left-0 top-0 rounded-full will-change-transform"
         style={{
-          left: "var(--glow-x, 50%)",
-          top: "var(--glow-y, 35%)",
-          background: "#5b8def",
+          width: GLOW_SIZE,
+          height: GLOW_SIZE,
+          background:
+            "radial-gradient(closest-side, rgba(91,141,239,0.2), rgba(91,141,239,0.07) 45%, transparent)",
         }}
       />
-      {/* slow, independent ambient drift so the page breathes on its own */}
-      <div className="absolute right-[-10%] top-[55%] h-[440px] w-[440px] animate-[ambient-drift_26s_ease-in-out_infinite] rounded-full bg-blue/[0.05] blur-[130px]" />
-      <div className="absolute left-[-12%] top-[80%] h-[380px] w-[380px] animate-[ambient-drift_34s_ease-in-out_infinite_reverse] rounded-full bg-violet/[0.05] blur-[130px]" />
+      {/* slow, independent drifts so the page breathes on its own */}
+      <div
+        className="absolute right-[-12%] top-[50%] h-[560px] w-[560px] animate-[ambient-drift_22s_ease-in-out_infinite] rounded-full will-change-transform"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(91,141,239,0.08), transparent)",
+        }}
+      />
+      <div
+        className="absolute left-[-14%] top-[75%] h-[500px] w-[500px] animate-[ambient-drift_28s_ease-in-out_infinite_reverse] rounded-full will-change-transform"
+        style={{
+          background:
+            "radial-gradient(closest-side, rgba(155,135,245,0.07), transparent)",
+        }}
+      />
       {/* film grain: adds texture and hides gradient banding */}
       <div className="grain absolute inset-0" />
     </div>
