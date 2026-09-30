@@ -3,6 +3,7 @@ import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionLabel from "./SectionLabel";
 import avatarAbstract from "../assets/avatar-abstract.svg";
+import profilePic from "../assets/profile.jpg";
 
 export default function About() {
   const revealRef = useReveal();
@@ -39,8 +40,8 @@ export default function About() {
           <div className="mt-16 grid items-start gap-10 border-t border-border-soft pt-10 md:grid-cols-[180px_minmax(0,520px)] md:gap-14">
             <div className="flex justify-center md:justify-start">
               <img
-                src={avatarAbstract}
-                alt="Abstract geometric profile illustration"
+                src={profilePic}
+                alt="Profile picture"
                 className="w-full max-w-36 rounded-xl border border-border object-cover md:max-w-44"
               />
             </div>
