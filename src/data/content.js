@@ -32,13 +32,21 @@ const localizedContent = {
     hero: {
       eyebrow: "Disponible para nuevos proyectos",
       headline: "Construyo experiencias web modernas para problemas reales.",
+      // Parte final del headline que se pinta con el gradiente animado
+      headlineAccent: "problemas reales.",
       subline:
         "Full Stack Developer especializado en React y TypeScript, con experiencia construyendo aplicaciones y soluciones para entornos empresariales. Me interesa crear software claro, eficiente y fácil de mantener.",
       meta: ["React", "TypeScript", "Node.js"],
       projectsCta: "Ver proyectos",
       contactCta: "Contactar",
       scrollLabel: "Ir a la sección Sobre mí",
+      codeFocus: "software claro y mantenible",
+      compiling: "compilando…",
+      compiled: "compilado con éxito",
+      errors: "0 errores",
     },
+    skipLink: "Saltar al contenido",
+    marqueeLabel: "Tecnologías con las que trabajo",
 
     about: {
       label: "Sobre mí",
@@ -52,6 +60,7 @@ const localizedContent = {
         lines: [
           { k: "rol", v: "Full Stack Developer" },
           { k: "desde", v: "2019" },
+          { k: "experiencia", v: `${new Date().getFullYear() - 2019}+ años` },
           { k: "frontend", v: "React · TypeScript" },
           { k: "backend", v: "Node.js · Java" },
           { k: "base", v: "México" },
@@ -128,6 +137,7 @@ const localizedContent = {
     experience: {
       label: "Experiencia",
       heading: "Experiencia construyendo software y trabajando con sistemas reales.",
+      currentLabel: "Actual",
       items: [
         {
           period: "2023 — Presente",
@@ -164,6 +174,15 @@ const localizedContent = {
       label: "Proyectos destacados",
       heading:
         "Proyectos personales para seguir aprendiendo fuera del día a día.",
+      wipLabel: "En desarrollo",
+      progressLabel: "progreso",
+      codeLabel: "Código",
+      demoLabel: "Demo",
+      // Campos opcionales por proyecto:
+      //   status: "wip" → etiqueta "En desarrollo"; progress: 0–100 → barra
+      //   repo / demo: enlaces separados al código y al sitio en vivo
+      //   image: captura propia (si no, se usa la ilustración por posición)
+      // Si href es "#" o está vacío, la tarjeta no se vuelve un enlace roto.
       items: [
         {
           title: "Warehouse Ops Dashboard",
@@ -189,6 +208,25 @@ const localizedContent = {
           href: "#",
           kind: "Proyecto personal",
         },
+        // Descomenta cuando quieras mostrarlos como "En desarrollo":
+        // {
+        //   title: "BuenFinPromo",
+        //   description: "TODO: qué problema resuelve y para quién.",
+        //   tags: ["React", "TypeScript"],
+        //   kind: "Proyecto personal",
+        //   status: "wip",
+        //   progress: 60,
+        //   repo: "https://github.com/SantiOrteal/...",
+        // },
+        // {
+        //   title: "StoryFrame",
+        //   description: "TODO: qué problema resuelve y para quién.",
+        //   tags: ["React", "TypeScript"],
+        //   kind: "Proyecto personal",
+        //   status: "wip",
+        //   progress: 40,
+        //   repo: "https://github.com/SantiOrteal/...",
+        // },
       ],
     },
 
@@ -199,6 +237,8 @@ const localizedContent = {
         "Estoy abierto a nuevas oportunidades, proyectos y colaboraciones. Si quieres hablar de desarrollo web, tecnología o una idea que quieras construir, hablemos.",
       copyLabel: "Copiar correo",
       copiedLabel: "Correo copiado",
+      madeWith: "Hecho con React, Vite y Tailwind",
+      backToTop: "Volver arriba",
       githubLabel: "GitHub",
       linkedinLabel: "LinkedIn",
     },
@@ -222,13 +262,20 @@ const localizedContent = {
     hero: {
       eyebrow: "Available for new projects",
       headline: "I build modern web experiences for real-world problems.",
+      headlineAccent: "real-world problems.",
       subline:
         "Full Stack Developer focused on React and TypeScript, with experience building applications and solutions for enterprise environments. I care about creating software that is clear, efficient, and easy to maintain.",
       meta: ["React", "TypeScript", "Node.js"],
       projectsCta: "View projects",
       contactCta: "Get in touch",
       scrollLabel: "Go to the About section",
+      codeFocus: "clear, maintainable software",
+      compiling: "compiling…",
+      compiled: "compiled successfully",
+      errors: "0 errors",
     },
+    skipLink: "Skip to content",
+    marqueeLabel: "Technologies I work with",
     about: {
       label: "About me",
       paragraphs: [
@@ -241,6 +288,7 @@ const localizedContent = {
         lines: [
           { k: "role", v: "Full Stack Developer" },
           { k: "since", v: "2019" },
+          { k: "experience", v: `${new Date().getFullYear() - 2019}+ years` },
           { k: "frontend", v: "React · TypeScript" },
           { k: "backend", v: "Node.js · Java" },
           { k: "base", v: "Mexico" },
@@ -305,6 +353,7 @@ const localizedContent = {
     experience: {
       label: "Experience",
       heading: "Experience building software and working with real systems.",
+      currentLabel: "Current",
       items: [
         {
           period: "2023 — Present",
@@ -340,6 +389,10 @@ const localizedContent = {
     projects: {
       label: "Featured projects",
       heading: "Personal projects to keep learning beyond the day-to-day.",
+      wipLabel: "In progress",
+      progressLabel: "progress",
+      codeLabel: "Code",
+      demoLabel: "Demo",
       items: [
         {
           title: "Warehouse Ops Dashboard",
@@ -365,6 +418,24 @@ const localizedContent = {
           href: "#",
           kind: "Personal project",
         },
+        // {
+        //   title: "BuenFinPromo",
+        //   description: "TODO: what problem it solves and for whom.",
+        //   tags: ["React", "TypeScript"],
+        //   kind: "Personal project",
+        //   status: "wip",
+        //   progress: 60,
+        //   repo: "https://github.com/SantiOrteal/...",
+        // },
+        // {
+        //   title: "StoryFrame",
+        //   description: "TODO: what problem it solves and for whom.",
+        //   tags: ["React", "TypeScript"],
+        //   kind: "Personal project",
+        //   status: "wip",
+        //   progress: 40,
+        //   repo: "https://github.com/SantiOrteal/...",
+        // },
       ],
     },
     contact: {
@@ -373,11 +444,33 @@ const localizedContent = {
       body: "I am open to new opportunities, projects, and collaborations. If you would like to talk about web development, technology, or an idea you want to build, let’s talk.",
       copyLabel: "Copy email",
       copiedLabel: "Email copied",
+      madeWith: "Built with React, Vite and Tailwind",
+      backToTop: "Back to top",
       githubLabel: "GitHub",
       linkedinLabel: "LinkedIn",
     },
   },
 };
+
+// Tira animada de tecnologías entre el hero y "Sobre mí" (igual en ambos idiomas)
+export const marquee = [
+  "React",
+  "TypeScript",
+  "JavaScript",
+  "Node.js",
+  "Vite",
+  "Tailwind CSS",
+  "TanStack Table",
+  "Java",
+  "Spring Boot",
+  "SQL",
+  "NetSuite",
+  "Dynatrace",
+  "Kibana",
+  "DataStax",
+  "Docker",
+  "Linux",
+];
 
 export const getContent = (language) =>
   localizedContent[language] || localizedContent.en;

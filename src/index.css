@@ -21,21 +21,28 @@
   --color-blue: #5b8def;
   --color-blue-soft: #9db8f2;
   --color-blue-dim: #2a3550;
+  --color-violet: #9b87f5;
+  --color-mint: #6ee7b7;
 
-  /* DESPUÉS */
-
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-* {
+html {
   scroll-behavior: smooth;
+  scroll-padding-top: 72px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
+  html {
     scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
 }
 
@@ -44,6 +51,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-ink);
   font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
@@ -57,17 +65,91 @@ body {
   border-radius: 2px;
 }
 
-/* Reveal-on-scroll primitive, toggled via IntersectionObserver in useReveal */
-.reveal {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+.text-balance {
+  text-wrap: balance;
 }
-.reveal.is-visible {
+
+/* ---------------------------------------------------------------------------
+   Reveal-on-scroll, toggled via IntersectionObserver in useReveal.
+   Children of .reveal-stagger animate one after another using --i.
+--------------------------------------------------------------------------- */
+.reveal,
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(6px);
+  transition:
+    opacity 0.8s var(--ease-out-expo),
+    transform 0.8s var(--ease-out-expo),
+    filter 0.8s var(--ease-out-expo);
+}
+.reveal-stagger > * {
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+.reveal.is-visible,
+.reveal-stagger.is-visible > * {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+  filter: none;
+}
+
+/* Hero intro: words slide up from behind a mask on first paint */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.word {
+  display: inline-block;
+  transform: translateY(105%);
+  animation: word-in 0.9s var(--ease-out-expo) forwards;
+  animation-delay: calc(120ms + var(--i, 0) * 45ms);
+}
+@keyframes word-in {
+  to {
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  opacity: 0;
+  animation: fade-up 0.9s var(--ease-out-expo) forwards;
+  animation-delay: var(--d, 0ms);
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* Animated gradient accent for key words */
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-blue-soft) 0%,
+    var(--color-blue) 35%,
+    var(--color-violet) 65%,
+    var(--color-blue-soft) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-pan 8s linear infinite;
+}
+@keyframes gradient-pan {
+  to {
+    background-position: -250% 0;
+  }
 }
 
 @keyframes pulse-dot {
@@ -88,7 +170,7 @@ body {
     transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translate3d(-40px, -40px, 0);
+    transform: translate3d(-56px, -56px, 0);
   }
 }
 .bg-grid-drift {
@@ -105,6 +187,119 @@ body {
   }
 }
 
-.text-balance {
-  text-wrap: balance;
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: caret-blink 1s steps(1) infinite;
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(200%);
+  }
+}
+
+/* Film-grain overlay to kill gradient banding and add texture */
+.grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+}
+
+/* ---------------------------------------------------------------------------
+   Spotlight cards: a radial glow + lit border that follow the pointer.
+   --mx / --my are set per card by useSpotlight.
+--------------------------------------------------------------------------- */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before,
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+}
+.spotlight::before {
+  z-index: -1;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(91, 141, 239, 0.09),
+    transparent 45%
+  );
+}
+.spotlight::after {
+  padding: 1px;
+  background: radial-gradient(
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(157, 184, 242, 0.55),
+    transparent 60%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.spotlight:hover::before,
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+/* Infinite marquee for the tech strip */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee-track {
+  animation: marquee 38s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.mask-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    #000 12%,
+    #000 88%,
+    transparent
+  );
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
 }

@@ -90,6 +90,9 @@ export default function AmbientBackground() {
       />
       {/* slow, independent ambient drift so the page breathes on its own */}
       <div className="absolute right-[-10%] top-[55%] h-[440px] w-[440px] animate-[ambient-drift_26s_ease-in-out_infinite] rounded-full bg-blue/[0.05] blur-[130px]" />
+      <div className="absolute left-[-12%] top-[80%] h-[380px] w-[380px] animate-[ambient-drift_34s_ease-in-out_infinite_reverse] rounded-full bg-violet/[0.05] blur-[130px]" />
+      {/* film grain: adds texture and hides gradient banding */}
+      <div className="grain absolute inset-0" />
     </div>
   );
 }

@@ -1,34 +1,51 @@
+import { Code2, Database, Activity } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
+import { useSpotlight } from "../hooks/usePointer";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
-import SectionLabel from "./SectionLabel";
+import SectionHeader from "./SectionHeader";
+
+const icons = [Code2, Database, Activity];
 
 function SkillGroup({ group, index }) {
   const revealRef = useReveal();
+  const spotRef = useSpotlight();
+  const Icon = icons[index % icons.length];
+
   return (
     <div
       ref={revealRef}
-      className="reveal rounded-lg border border-border bg-surface p-6 transition-colors duration-300 hover:border-blue-dim"
-      style={{ transitionDelay: `${index * 80}ms` }}
+      className="reveal h-full"
+      style={{ transitionDelay: `${index * 90}ms` }}
     >
-      <div className="mb-5 flex items-baseline justify-between gap-3">
+      <div
+        ref={spotRef}
+        className="spotlight group h-full rounded-lg border border-border bg-surface p-6 transition-transform duration-500 hover:-translate-y-1"
+      >
+        <div className="mb-6 flex items-center justify-between">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md border border-border-soft bg-surface-2 text-blue-soft transition-[color,transform] duration-500 group-hover:rotate-[-8deg] group-hover:scale-110 group-hover:text-blue">
+            <Icon size={17} strokeWidth={1.75} />
+          </span>
+          <span className="font-mono text-[11px] text-ink-dim">
+            {String(group.skills.length).padStart(2, "0")} tools
+          </span>
+        </div>
         <h3 className="font-display text-lg font-medium text-ink">
           {group.title}
         </h3>
-        <span className="font-mono text-[11px] text-ink-dim">
-          {group.note}
-        </span>
+        <p className="mt-1 font-mono text-[11px] text-ink-dim">{group.note}</p>
+
+        <ul className="mt-5 flex flex-wrap gap-2">
+          {group.skills.map((skill) => (
+            <li
+              key={skill}
+              className="cursor-default rounded-full border border-border-soft bg-surface-2 px-3 py-1.5 font-mono text-[12.5px] text-ink-muted transition-[color,border-color,transform] duration-300 hover:-translate-y-0.5 hover:border-blue-dim hover:text-blue-soft"
+            >
+              {skill}
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="flex flex-wrap gap-2">
-        {group.skills.map((skill) => (
-          <li
-            key={skill}
-            className="rounded-full border border-border-soft bg-surface-2 px-3 py-1.5 font-mono text-[12.5px] text-ink-muted"
-          >
-            {skill}
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }
@@ -42,11 +59,7 @@ export default function Skills() {
       className="border-b border-border-soft px-6 py-24 md:px-10 md:py-32"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionLabel>{skills.label}</SectionLabel>
-
-        <h2 className="text-balance mt-6 max-w-2xl font-display text-3xl font-medium leading-tight text-ink md:text-4xl">
-          {skills.heading}
-        </h2>
+        <SectionHeader index="04" label={skills.label} title={skills.heading} />
 
         <div className="mt-12 grid grid-cols-1 gap-5 md:grid-cols-3">
           {skills.groups.map((group, i) => (
