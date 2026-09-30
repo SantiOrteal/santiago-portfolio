@@ -1,4 +1,4 @@
-import { ArrowUpRight, ExternalLink, Hammer } from "lucide-react";
+import { ArrowUpRight, ExternalLink, Hammer, Info } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 import { useSpotlight } from "../hooks/usePointer";
 import { getContent } from "../data/content";
@@ -9,15 +9,17 @@ import projectDashboard from "../assets/project-dashboard.svg";
 import projectPulse from "../assets/project-pulse.svg";
 import projectKit from "../assets/project-kit.svg";
 
-const projectImages = [projectDashboard, projectPulse, projectKit];
+const covers = { dashboard: projectDashboard, pulse: projectPulse, kit: projectKit };
 const accents = ["#5b8def", "#9b87f5", "#6ee7b7", "#f5b97a"];
 
 const realLink = (url) => (url && url !== "#" ? url : null);
 
 // Generated cover for projects without an illustration or screenshot.
 function GeneratedCover({ title, accent }) {
+  // "BuenFinPromo" -> "BFP", "Warehouse Ops Dashboard" -> "WOD"
   const initials = title
-    .split(/\s+/)
+    .split(/\s+|(?=[A-Z][a-z])/)
+    .filter(Boolean)
     .map((w) => w[0])
     .join("")
     .slice(0, 3);
@@ -55,8 +57,9 @@ function ProjectCard({ project, index, labels }) {
   const repo = realLink(project.repo);
   const demo = realLink(project.demo);
   const mainHref = demo || realLink(project.href) || repo;
-  // WIP projects get the generated cover unless they bring their own image.
-  const image = project.image || (!isWip && projectImages[index]);
+  // Screenshot first, then a named illustration, otherwise a generated cover.
+  const image = project.image || covers[project.cover];
+  const paragraphs = [].concat(project.description);
 
   return (
     <article
@@ -122,9 +125,20 @@ function ProjectCard({ project, index, labels }) {
               project.title
             )}
           </h3>
-          <p className="mt-3 text-[14.5px] leading-relaxed text-ink-muted">
-            {project.description}
-          </p>
+          <div className="mt-3 space-y-3">
+            {paragraphs.map((text, i) => (
+              <p key={i} className="text-[14.5px] leading-relaxed text-ink-muted">
+                {text}
+              </p>
+            ))}
+          </div>
+
+          {project.note && (
+            <p className="mt-4 flex gap-2 rounded-md border border-border-soft bg-surface-2/60 p-3 text-[12px] leading-relaxed text-ink-dim">
+              <Info size={14} strokeWidth={1.75} className="mt-0.5 shrink-0 text-blue-soft" aria-hidden="true" />
+              <span>{project.note}</span>
+            </p>
+          )}
 
           {isWip && typeof project.progress === "number" && (
             <div className="mt-5">

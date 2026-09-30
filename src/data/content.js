@@ -185,11 +185,34 @@ const localizedContent = {
       // Campos opcionales por proyecto:
       //   status: "wip" → etiqueta "En desarrollo"; progress: 0–100 → barra
       //   repo / demo: enlaces separados al código y al sitio en vivo
-      //   image: captura propia (si no, se usa la ilustración por posición)
+      //   image: captura propia; cover: "dashboard" | "pulse" | "kit" usa una ilustración
+      //   description: texto o lista de párrafos; note: aclaración en letra pequeña
       // Si href es "#" o está vacío, la tarjeta no se vuelve un enlace roto.
       items: [
         {
+          title: "StoryFrame",
+          description:
+            "StoryFrame es un álbum digital interactivo pensado como regalo para una pareja: combina fotos, frases y música en una experiencia tipo \"stories\" — con portada, capítulos que se recorren con swipe, y un reproductor de Spotify embebido — todo envuelto en un diseño minimalista en blanco y negro. Está construido para ser reutilizable: cualquier persona podrá crear el suyo, personalizando nombres, capítulos y canción, sin tocar código.",
+          tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+          kind: "Proyecto personal",
+          status: "wip",
+          repo: "https://github.com/SantiOrteal/StoryFrame",
+        },
+        {
+          title: "BuenFinPromo",
+          // Varios párrafos: se muestran uno debajo de otro en la tarjeta
+          description: [
+            "BuenFinPromo es una herramienta de comparación y simulación que ayuda a los usuarios a identificar qué promociones bancarias pueden resultar más convenientes para sus compras durante El Buen Fin.",
+            "Utiliza información oficial publicada por los bancos sobre promociones, meses sin intereses, bonificaciones, descuentos y condiciones aplicables para permitir al usuario simular diferentes escenarios de compra, estimar cuánto pagaría y planificar mejor sus gastos y finanzas personales.",
+          ],
+          note: "Los resultados son simulaciones y estimaciones, por lo que pueden diferir de las condiciones o beneficios que finalmente otorgue cada banco, ya que la aplicación no controla la autorización ni aplicación de las promociones. Su objetivo es proporcionar una referencia clara para que los usuarios puedan comparar opciones y tomar decisiones de compra mejor informadas.",
+          tags: ["React", "Vite", "Tailwind CSS", "Radix UI", "Vitest"],
+          kind: "Proyecto personal",
+          status: "wip",
+        },
+        {
           title: "Warehouse Ops Dashboard",
+          cover: "dashboard",
           description:
             "Panel de inventario y órdenes construido para practicar tablas de datos grandes: filtros combinados, orden por columna y paginación fluida sobre miles de filas simuladas.",
           tags: ["React", "TypeScript", "TanStack Table", "Vite"],
@@ -198,6 +221,7 @@ const localizedContent = {
         },
         {
           title: "DevPulse",
+          cover: "pulse",
           description:
             "Mini monitor de estado de servicios inspirado en los dashboards de observabilidad que usa día a día: endpoints simulados, historial de uptime y alertas visuales simples.",
           tags: ["React", "Node.js", "Tailwind CSS"],
@@ -206,31 +230,13 @@ const localizedContent = {
         },
         {
           title: "UI Kit ligero",
+          cover: "kit",
           description:
             "Colección propia de componentes reutilizables (botones, tablas, formularios) para arrancar proyectos nuevos más rápido, sin depender de un framework de UI completo.",
           tags: ["React", "TypeScript", "Tailwind CSS"],
           href: "#",
           kind: "Proyecto personal",
         },
-        // Descomenta cuando quieras mostrarlos como "En desarrollo":
-        // {
-        //   title: "BuenFinPromo",
-        //   description: "TODO: qué problema resuelve y para quién.",
-        //   tags: ["React", "TypeScript"],
-        //   kind: "Proyecto personal",
-        //   status: "wip",
-        //   progress: 60,
-        //   repo: "https://github.com/SantiOrteal/...",
-        // },
-        // {
-        //   title: "StoryFrame",
-        //   description: "TODO: qué problema resuelve y para quién.",
-        //   tags: ["React", "TypeScript"],
-        //   kind: "Proyecto personal",
-        //   status: "wip",
-        //   progress: 40,
-        //   repo: "https://github.com/SantiOrteal/...",
-        // },
       ],
     },
 
@@ -403,7 +409,29 @@ const localizedContent = {
       demoLabel: "Demo",
       items: [
         {
+          title: "StoryFrame",
+          description:
+            "StoryFrame is an interactive digital album designed as a gift for a partner: it combines photos, quotes, and music in a \"stories\"-style experience — with a cover, chapters you swipe through, and an embedded Spotify player — all wrapped in a minimalist black-and-white design. It is built to be reusable: anyone will be able to create their own, customizing names, chapters, and song without touching code.",
+          tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
+          kind: "Personal project",
+          status: "wip",
+          repo: "https://github.com/SantiOrteal/StoryFrame",
+        },
+        {
+          title: "BuenFinPromo",
+          // Varios párrafos: se muestran uno debajo de otro en la tarjeta
+          description: [
+            "BuenFinPromo is a comparison and simulation tool that helps users identify which bank promotions may be the most convenient for their purchases during El Buen Fin, Mexico’s biggest shopping weekend.",
+            "It uses official information published by banks about promotions, interest-free installments, cashback, discounts, and applicable conditions so users can simulate different purchase scenarios, estimate how much they would pay, and better plan their spending and personal finances.",
+          ],
+          note: "Results are simulations and estimates, so they may differ from the conditions or benefits each bank ultimately grants, since the app does not control the authorization or application of promotions. Its goal is to provide a clear reference so users can compare options and make better-informed purchasing decisions.",
+          tags: ["React", "Vite", "Tailwind CSS", "Radix UI", "Vitest"],
+          kind: "Personal project",
+          status: "wip",
+        },
+        {
           title: "Warehouse Ops Dashboard",
+          cover: "dashboard",
           description:
             "An inventory and orders dashboard built to practice handling large data tables: combined filters, column sorting, and smooth pagination across thousands of simulated rows.",
           tags: ["React", "TypeScript", "TanStack Table", "Vite"],
@@ -412,6 +440,7 @@ const localizedContent = {
         },
         {
           title: "DevPulse",
+          cover: "pulse",
           description:
             "A small service status monitor inspired by the observability dashboards I use every day: simulated endpoints, uptime history, and simple visual alerts.",
           tags: ["React", "Node.js", "Tailwind CSS"],
@@ -420,30 +449,13 @@ const localizedContent = {
         },
         {
           title: "Lightweight UI Kit",
+          cover: "kit",
           description:
             "A personal collection of reusable components (buttons, tables, forms) for starting new projects faster without relying on a full UI framework.",
           tags: ["React", "TypeScript", "Tailwind CSS"],
           href: "#",
           kind: "Personal project",
         },
-        // {
-        //   title: "BuenFinPromo",
-        //   description: "TODO: what problem it solves and for whom.",
-        //   tags: ["React", "TypeScript"],
-        //   kind: "Personal project",
-        //   status: "wip",
-        //   progress: 60,
-        //   repo: "https://github.com/SantiOrteal/...",
-        // },
-        // {
-        //   title: "StoryFrame",
-        //   description: "TODO: what problem it solves and for whom.",
-        //   tags: ["React", "TypeScript"],
-        //   kind: "Personal project",
-        //   status: "wip",
-        //   progress: 40,
-        //   repo: "https://github.com/SantiOrteal/...",
-        // },
       ],
     },
     contact: {
