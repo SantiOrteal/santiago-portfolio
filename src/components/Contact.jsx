@@ -6,6 +6,7 @@ import { useMagnetic, useSpotlight } from "../hooks/usePointer";
 import { getContent, profile } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionHeader from "./SectionHeader";
+import ContactForm from "./ContactForm";
 
 function MagneticLink({ href, children }) {
   const ref = useMagnetic(0.2);
@@ -15,7 +16,7 @@ function MagneticLink({ href, children }) {
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-2.5 rounded-md border border-border bg-surface/40 px-5 py-3.5 font-mono text-[13px] text-ink backdrop-blur-sm transition-colors duration-300 hover:border-blue hover:text-blue"
+      className="inline-flex items-center gap-2.5 rounded-md border border-border bg-surface/40 px-4 py-3 font-mono text-[13px] text-ink backdrop-blur-sm transition-colors duration-300 hover:border-blue hover:text-blue"
     >
       {children}
     </a>
@@ -63,7 +64,7 @@ export default function Contact() {
 
         <div
           ref={spotRef}
-          className="spotlight relative mt-10 overflow-hidden rounded-2xl border border-border bg-surface/50 p-8 md:p-14"
+          className="spotlight relative mt-10 overflow-clip rounded-2xl border border-border bg-surface/50 p-5 sm:p-8 md:p-12"
         >
           {/* decorative rings */}
           <div
@@ -79,59 +80,67 @@ export default function Contact() {
             }}
           />
 
-          <div ref={revealRef} className="reveal-stagger relative">
-            <h2
-              style={{ "--i": 0 }}
-              className="text-balance max-w-2xl font-display text-3xl font-medium leading-tight text-ink md:text-5xl"
-            >
-              {contact.heading}
-            </h2>
-            <p
-              style={{ "--i": 1 }}
-              className="mt-5 max-w-lg text-[15px] leading-relaxed text-ink-muted md:text-base"
-            >
-              {contact.body}
-            </p>
+          <div
+            ref={revealRef}
+            className="reveal-stagger relative grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14"
+          >
+            <div style={{ "--i": 0 }} className="flex flex-col">
+              <h2 className="text-balance max-w-xl font-display text-3xl font-medium leading-tight text-ink md:text-[2.6rem]">
+                {contact.heading}
+              </h2>
+              <p className="mt-5 max-w-md text-[15px] leading-relaxed text-ink-muted md:text-base">
+                {contact.body}
+              </p>
 
-            <div
-              style={{ "--i": 2 }}
-              className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center"
-            >
-              <button
-                ref={copyRef}
-                type="button"
-                onClick={handleCopy}
-                aria-label={copied ? contact.copiedLabel : contact.copyLabel}
-                className="group inline-flex items-center justify-center gap-3 rounded-md bg-blue px-5 py-3.5 font-mono text-[13px] font-medium text-bg shadow-[0_8px_30px_-8px_rgba(91,141,239,0.7)]"
-              >
-                <Mail size={16} strokeWidth={1.75} />
-                <span className="truncate">{profile.email}</span>
-                <span className="relative h-3.5 w-3.5">
-                  <Copy
-                    size={14}
-                    strokeWidth={1.75}
-                    className={`absolute inset-0 transition-all duration-300 ${
-                      copied ? "scale-50 opacity-0" : "scale-100 opacity-100"
-                    }`}
-                  />
-                  <Check
-                    size={14}
-                    strokeWidth={2.25}
-                    className={`absolute inset-0 transition-all duration-300 ${
-                      copied ? "scale-100 opacity-100" : "scale-50 opacity-0"
-                    }`}
-                  />
+              <div className="mt-10 lg:mt-auto lg:pt-10">
+                <span className="mb-4 flex items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-ink-dim">
+                  <span className="h-px w-6 bg-border" />
+                  {contact.directLabel}
                 </span>
-              </button>
+                <div className="flex flex-col items-start gap-3">
+                  <button
+                    ref={copyRef}
+                    type="button"
+                    onClick={handleCopy}
+                    aria-label={copied ? contact.copiedLabel : contact.copyLabel}
+                    className="group inline-flex max-w-full items-center gap-3 rounded-md border border-border bg-surface/40 px-4 py-3 font-mono text-[13px] text-ink backdrop-blur-sm transition-colors duration-300 hover:border-blue"
+                  >
+                    <Mail size={16} strokeWidth={1.75} className="shrink-0 text-blue" />
+                    <span className="truncate">{profile.email}</span>
+                    <span className="relative h-3.5 w-3.5 shrink-0">
+                      <Copy
+                        size={14}
+                        strokeWidth={1.75}
+                        className={`absolute inset-0 text-ink-muted transition-all duration-300 group-hover:text-blue-soft ${
+                          copied ? "scale-50 opacity-0" : "scale-100 opacity-100"
+                        }`}
+                      />
+                      <Check
+                        size={14}
+                        strokeWidth={2.25}
+                        className={`absolute inset-0 text-mint transition-all duration-300 ${
+                          copied ? "scale-100 opacity-100" : "scale-50 opacity-0"
+                        }`}
+                      />
+                    </span>
+                  </button>
 
-              <MagneticLink href={profile.github}>
-                <GithubIcon size={16} />
-                {contact.githubLabel}
-              </MagneticLink>
-              <MagneticLink href={profile.linkedin}>
-                <LinkedinIcon size={16} />
-                {contact.linkedinLabel}
-              </MagneticLink>
+                  <div className="flex flex-wrap gap-3">
+                    <MagneticLink href={profile.github}>
+                      <GithubIcon size={16} />
+                      {contact.githubLabel}
+                    </MagneticLink>
+                    <MagneticLink href={profile.linkedin}>
+                      <LinkedinIcon size={16} />
+                      {contact.linkedinLabel}
+                    </MagneticLink>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ "--i": 1 }}>
+              <ContactForm t={contact.form} language={language} />
             </div>
           </div>
         </div>
