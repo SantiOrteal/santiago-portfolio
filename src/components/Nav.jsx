@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { SquareTerminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 import { getContent, profile } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import { useScrollProgress, useScrollSpy } from "../hooks/useScroll";
+import { openTerminal, shortcutLabel } from "../lib/terminal";
 
 const ids = ["about", "experience", "projects", "skills", "homelab", "contact"];
 
@@ -96,6 +98,15 @@ export default function Nav() {
         </nav>
 
         <div className="hidden items-center gap-4 lg:flex">
+          <button
+            type="button"
+            onClick={openTerminal}
+            aria-label={`${content.terminal.openLabel} (${shortcutLabel()})`}
+            title={`${content.terminal.openLabel} · ${shortcutLabel()}`}
+            className="text-ink-muted transition-[color,transform] duration-300 hover:-translate-y-0.5 hover:text-blue"
+          >
+            <SquareTerminal size={18} strokeWidth={1.75} />
+          </button>
           <a
             href={profile.github}
             target="_blank"
@@ -171,6 +182,17 @@ export default function Nav() {
             ))}
             <div className="mt-3 flex items-center justify-between border-t border-border-soft pt-5">
               <div className="flex gap-5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openTerminal();
+                  }}
+                  aria-label={content.terminal.openLabel}
+                  className="text-ink-muted hover:text-blue"
+                >
+                  <SquareTerminal size={20} strokeWidth={1.75} />
+                </button>
                 <a
                   href={profile.github}
                   target="_blank"

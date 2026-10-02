@@ -29,7 +29,7 @@ export default function About() {
 
   // Numbers come straight from the content so they never drift out of date.
   const years = new Date().getFullYear() - 2019;
-  const techCount = new Set(skills.groups.flatMap((g) => g.skills)).size;
+  const techCount = new Set(skills.items.flatMap((item) => item.tech)).size;
   const serviceCount = homelab.groups.reduce((n, g) => n + g.services.length, 0);
 
   return (

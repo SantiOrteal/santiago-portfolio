@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Check, Copy, Mail } from "lucide-react";
+import { ArrowUp, Check, Copy, Mail, SquareTerminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 import { useReveal } from "../hooks/useReveal";
 import { useMagnetic, useSpotlight } from "../hooks/usePointer";
@@ -7,6 +7,7 @@ import { getContent, profile } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import ContactForm from "./ContactForm";
+import { openTerminal, shortcutLabel } from "../lib/terminal";
 
 function MagneticLink({ href, children }) {
   const ref = useMagnetic(0.2);
@@ -28,7 +29,7 @@ export default function Contact() {
   const spotRef = useSpotlight();
   const copyRef = useMagnetic(0.12);
   const { language } = useLanguage();
-  const { contact } = getContent(language);
+  const { contact, terminal } = getContent(language);
   const [copied, setCopied] = useState(false);
   const copyTimeoutRef = useRef(null);
 
@@ -146,8 +147,22 @@ export default function Contact() {
         </div>
 
         <footer className="mt-20 flex flex-col gap-4 border-t border-border-soft pt-8 font-mono text-[11px] text-ink-dim sm:flex-row sm:items-center sm:justify-between">
-          <span>
-            © {new Date().getFullYear()} {profile.name} · {contact.madeWith}
+          <span className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <span>
+              © {new Date().getFullYear()} {profile.name} · {contact.madeWith}
+            </span>
+            {/* discoverable entry point to the hidden terminal */}
+            <button
+              type="button"
+              onClick={openTerminal}
+              className="group inline-flex items-center gap-2 self-start text-ink-dim transition-colors hover:text-blue-soft"
+            >
+              <SquareTerminal size={13} strokeWidth={1.75} className="transition-transform duration-300 group-hover:-rotate-6" />
+              {terminal.footerHint}
+              <kbd className="rounded border border-border-soft bg-surface-2 px-1.5 py-0.5 text-[10px] text-ink-muted">
+                {shortcutLabel()}
+              </kbd>
+            </button>
           </span>
           <span className="flex items-center gap-6">
             <span className="flex items-center gap-2">

@@ -10,6 +10,7 @@ import AmbientBackground from "./components/AmbientBackground";
 import BlueprintBackground from "./components/BlueprintBackground";
 import Seo from "./components/Seo";
 import TechMarquee from "./components/TechMarquee";
+import Terminal from "./components/Terminal";
 import { getContent } from "./data/content";
 import { useLanguage } from "./context/LanguageContext";
 
@@ -38,6 +39,7 @@ export default function App() {
         <Homelab />
         <Contact />
       </main>
+      <Terminal />
     </div>
   );
 }
