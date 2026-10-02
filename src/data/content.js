@@ -185,10 +185,23 @@ const localizedContent = {
       // Campos opcionales por proyecto:
       //   status: "wip" → etiqueta "En desarrollo"; progress: 0–100 → barra
       //   repo / demo: enlaces separados al código y al sitio en vivo
-      //   image: captura propia; cover: "dashboard" | "pulse" | "kit" usa una ilustración
+      //   image: captura propia; cover: "dreambox" usa una imagen registrada en Projects.jsx
+      //   (sin image ni cover se genera una portada con las iniciales)
       //   description: texto o lista de párrafos; note: aclaración en letra pequeña
       // Si href es "#" o está vacío, la tarjeta no se vuelve un enlace roto.
       items: [
+        {
+          title: "DreamBox: sitio web corporativo",
+          cover: "dreambox",
+          description: [
+            "Landing page para DreamBox, una empresa de desarrollo de software y soluciones IT (soporte técnico, desarrollo web y servicios de infraestructura).",
+            "Diseñé y desarrollé un sitio claro y minimalista, inspirado en la estética de Apple. Cuenta la propuesta de valor con frases cortas que aparecen al hacer scroll, animaciones suaves y un recorrido por servicios, proceso de trabajo, preguntas frecuentes y contacto.",
+          ],
+          tags: ["React 18", "Vite", "Tailwind CSS", "Motion"],
+          kind: "Mi empresa",
+          // Descomenta cuando el sitio esté publicado:
+          // demo: "https://www.dreamboxdev.com",
+        },
         {
           title: "StoryFrame",
           description:
@@ -209,33 +222,6 @@ const localizedContent = {
           tags: ["React", "Vite", "Tailwind CSS", "Radix UI", "Vitest"],
           kind: "Proyecto personal",
           status: "wip",
-        },
-        {
-          title: "Warehouse Ops Dashboard",
-          cover: "dashboard",
-          description:
-            "Panel de inventario y órdenes construido para practicar tablas de datos grandes: filtros combinados, orden por columna y paginación fluida sobre miles de filas simuladas.",
-          tags: ["React", "TypeScript", "TanStack Table", "Vite"],
-          href: "#",
-          kind: "Proyecto personal",
-        },
-        {
-          title: "DevPulse",
-          cover: "pulse",
-          description:
-            "Mini monitor de estado de servicios inspirado en los dashboards de observabilidad que usa día a día: endpoints simulados, historial de uptime y alertas visuales simples.",
-          tags: ["React", "Node.js", "Tailwind CSS"],
-          href: "#",
-          kind: "Proyecto personal",
-        },
-        {
-          title: "UI Kit ligero",
-          cover: "kit",
-          description:
-            "Colección propia de componentes reutilizables (botones, tablas, formularios) para arrancar proyectos nuevos más rápido, sin depender de un framework de UI completo.",
-          tags: ["React", "TypeScript", "Tailwind CSS"],
-          href: "#",
-          kind: "Proyecto personal",
         },
       ],
     },
@@ -441,6 +427,18 @@ const localizedContent = {
       demoLabel: "Demo",
       items: [
         {
+          title: "DreamBox: corporate website",
+          cover: "dreambox",
+          description: [
+            "Landing page for DreamBox, a software development and IT solutions company (technical support, web development, and infrastructure services).",
+            "I designed and built a clean, minimalist site inspired by Apple's aesthetic. It tells the value proposition through short phrases that appear on scroll, smooth animations, and a walkthrough of services, work process, FAQ, and contact.",
+          ],
+          tags: ["React 18", "Vite", "Tailwind CSS", "Motion"],
+          kind: "My company",
+          // Descomenta cuando el sitio esté publicado:
+          // demo: "https://www.dreamboxdev.com",
+        },
+        {
           title: "StoryFrame",
           description:
             "StoryFrame is an interactive digital album designed as a gift for a partner: it combines photos, quotes, and music in a \"stories\"-style experience — with a cover, chapters you swipe through, and an embedded Spotify player — all wrapped in a minimalist black-and-white design. It is built to be reusable: anyone will be able to create their own, customizing names, chapters, and song without touching code.",
@@ -460,33 +458,6 @@ const localizedContent = {
           tags: ["React", "Vite", "Tailwind CSS", "Radix UI", "Vitest"],
           kind: "Personal project",
           status: "wip",
-        },
-        {
-          title: "Warehouse Ops Dashboard",
-          cover: "dashboard",
-          description:
-            "An inventory and orders dashboard built to practice handling large data tables: combined filters, column sorting, and smooth pagination across thousands of simulated rows.",
-          tags: ["React", "TypeScript", "TanStack Table", "Vite"],
-          href: "#",
-          kind: "Personal project",
-        },
-        {
-          title: "DevPulse",
-          cover: "pulse",
-          description:
-            "A small service status monitor inspired by the observability dashboards I use every day: simulated endpoints, uptime history, and simple visual alerts.",
-          tags: ["React", "Node.js", "Tailwind CSS"],
-          href: "#",
-          kind: "Personal project",
-        },
-        {
-          title: "Lightweight UI Kit",
-          cover: "kit",
-          description:
-            "A personal collection of reusable components (buttons, tables, forms) for starting new projects faster without relying on a full UI framework.",
-          tags: ["React", "TypeScript", "Tailwind CSS"],
-          href: "#",
-          kind: "Personal project",
         },
       ],
     },
@@ -558,110 +529,3 @@ export const marquee = [
 
 export const getContent = (language) =>
   localizedContent[language] || localizedContent.en;
-
-export const about = {
-  paragraphs: [
-    "Soy desarrollador Full Stack, enfocado en React, JavaScript y TypeScript. Me gusta el trabajo donde el detalle importa: una tabla que carga rápido, un formulario que no confunde, una interfaz que un equipo de operación usa todos los días sin pensar en ella.",
-    "Actualmente trabajo dentro de operaciones de Supply Chain, dando seguimiento y desarrollando sobre procesos de Warehouse, Logistics y Purchasing — atendiendo stories, bugs y tickets en sistemas como NetSuite, y apoyándome en herramientas de observabilidad como Dynatrace y Kibana para entender qué está pasando de verdad en producción.",
-    "Fuera del entorno empresarial disfruto construir proyectos personales, probar librerías nuevas y llevar mi stack (React, Vite, Tailwind, Node) a lugares distintos a los del trabajo diario.",
-  ],
-  card: {
-    label: "whoami",
-    lines: [
-      { k: "rol", v: "Full Stack Developer" },
-      { k: "desde", v: "2019" },
-      { k: "foco", v: "React · TypeScript" },
-      { k: "ahora", v: "Supply Chain Ops" },
-      { k: "base", v: "México" },
-    ],
-  },
-};
-
-export const skillGroups = [
-  {
-    title: "Full Stack",
-    note: "Construcción de interfaces",
-    skills: [
-      "React",
-      "JavaScript",
-      "TypeScript",
-      "Vite.js",
-      "Tailwind CSS",
-      "TanStack Table",
-    ],
-  },
-  {
-    title: "Backend & Datos",
-    note: "Soporte y servicios",
-    skills: ["Node.js", "Java", "Spring Boot", "SQL"],
-  },
-  {
-    title: "Enterprise & Observabilidad",
-    note: "Entornos de producción real",
-    skills: ["NetSuite", "Dynatrace", "Kibana", "DataStax"],
-  },
-];
-
-export const experience = [
-  {
-    period: "2023 — Presente",
-    role: "Full Stack Developer & Operations Analyst",
-    org: "Accenture",
-    points: [
-      "Desarrollo y mantenimiento de interfaces Full Stack para procesos de Warehouse, Logistics y Purchasing dentro de operaciones de Supply Chain.",
-      "Seguimiento a stories, bugs y tickets, integrando sistemas como NetSuite con herramientas de observabilidad (Dynatrace, Kibana) y datos en DataStax.",
-      "Miembro de la iniciativa interna Trends & Innovation (T&I), enfocada en microservicios y componentes reutilizables con IA para equipos internos.",
-    ],
-  },
-  {
-    period: "2021 — 2023",
-    role: "Operations Analyst",
-    org: "Accenture",
-    points: [
-      "Incorporación al equipo de operaciones, con transición progresiva hacia desarrollo Full Stack.",
-      "Base para la promoción a Full Stack Developer & Operations Analyst en 2023.",
-    ],
-  },
-  {
-    period: "2019 — 2021",
-    role: "Full Stack Developer",
-    org: "Grupo W", //
-    points: [
-      "Desarrollo de sitios y aplicaciones web utilizando JavaScript, PHP, HTML5, CSS, React, TypeScript, Gatsby y WordPress.",
-      "Optimización de rendimiento y SEO para mejorar la experiencia de usuario y el posicionamiento de los sitios en Google.",
-      "Desarrollo de nuevos componentes y funcionalidades, además de mantenimiento y mejora continua de sitios existentes.",
-    ],
-  },
-];
-
-export const projects = [
-  {
-    title: "Warehouse Ops Dashboard",
-    description:
-      "Panel de inventario y órdenes construido para practicar tablas de datos grandes: filtros combinados, orden por columna y paginación fluida sobre miles de filas simuladas.",
-    tags: ["React", "TypeScript", "TanStack Table", "Vite"],
-    href: "#", // TODO: enlazar al repositorio real
-    kind: "Proyecto personal",
-  },
-  {
-    title: "DevPulse",
-    description:
-      "Mini monitor de estado de servicios inspirado en los dashboards de observabilidad que usa día a día — endpoints simulados, historial de uptime y alertas visuales simples.",
-    tags: ["React", "Node.js", "Tailwind CSS"],
-    href: "#", // TODO: enlazar al repositorio real
-    kind: "Proyecto personal",
-  },
-  {
-    title: "UI Kit ligero",
-    description:
-      "Colección propia de componentes reutilizables (botones, tablas, formularios) para arrancar proyectos nuevos más rápido, sin depender de un framework de UI completo.",
-    tags: ["React", "TypeScript", "Tailwind CSS"],
-    href: "#", // TODO: enlazar al repositorio real
-    kind: "Proyecto personal",
-  },
-];
-
-export const contact = {
-  heading: "¿Construimos algo juntos?",
-  body: "Abierto a nuevas oportunidades, colaboraciones o simplemente a hablar de Full Stack, sistemas de datos o proyectos personales.",
-};

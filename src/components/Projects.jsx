@@ -5,11 +5,10 @@ import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import { GithubIcon } from "./BrandIcons";
 import SectionHeader from "./SectionHeader";
-import projectDashboard from "../assets/project-dashboard.svg";
-import projectPulse from "../assets/project-pulse.svg";
-import projectKit from "../assets/project-kit.svg";
+import projectDreambox from "../assets/project-dreambox.png";
 
-const covers = { dashboard: projectDashboard, pulse: projectPulse, kit: projectKit };
+// Cover images referenced by name from content.js (`cover: "dreambox"`)
+const covers = { dreambox: projectDreambox };
 const accents = ["#5b8def", "#9b87f5", "#6ee7b7", "#f5b97a"];
 
 const realLink = (url) => (url && url !== "#" ? url : null);
