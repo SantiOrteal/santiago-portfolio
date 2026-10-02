@@ -32,6 +32,19 @@ html {
   scroll-padding-top: 72px;
 }
 
+/* Tailwind v4 resets buttons to the default cursor; bring the hand back
+   for everything clickable (the stretched card buttons included). */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
