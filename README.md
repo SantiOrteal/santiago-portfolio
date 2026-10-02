@@ -98,7 +98,7 @@ Contact form setup (Web3Forms + n8n): [`docs/CONTACT_FORM_HANDOFF.md`](docs/CONT
 
 ## License
 
-MIT
+[MIT](LICENSE) © Santiago Ortega
 
 ## Contact
 
