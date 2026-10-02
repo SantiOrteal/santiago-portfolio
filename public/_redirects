@@ -1,0 +1,13 @@
+# Cloudflare Pages redirects/rewrites — https://developers.cloudflare.com/pages/configuration/redirects/
+# Format: <from> <to> <status>
+#
+# The site is a single-page app with two language routes. "200" means
+# rewrite: the URL stays /es-mx/ or /en/ but Pages serves index.html, so
+# reloading those pages never returns 404.
+#
+# Any other unknown path falls through to /404.html (served with status 404).
+
+/es-mx    /es-mx/      301
+/en       /en/         301
+/es-mx/*  /index.html  200
+/en/*     /index.html  200

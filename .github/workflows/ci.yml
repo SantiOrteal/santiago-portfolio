@@ -1,0 +1,57 @@
+# CI = Continuous Integration.
+# Goal: every change is checked automatically (lint + build) before it can
+# reach production. It never deploys anything.
+#
+# Full explanation: docs/DEPLOY.md
+
+name: CI
+
+# ── When it runs ────────────────────────────────────────────────────────────
+on:
+  # Every push to master…
+  push:
+    branches: [master]
+  # …and every pull request (from any branch) that targets master.
+  pull_request:
+    branches: [master]
+
+# If you push twice in a row to the same branch, cancel the older run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# Least privilege: this workflow only needs to read the code.
+permissions:
+  contents: read
+
+# ── What it does ────────────────────────────────────────────────────────────
+jobs:
+  check:
+    name: Lint & build
+    runs-on: ubuntu-latest # a fresh Linux VM provided by GitHub
+    timeout-minutes: 10
+
+    steps:
+      # 1. Download the repository into the VM.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Install Node.js and cache ~/.npm between runs (faster installs).
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # 3. Install exactly what package-lock.json says (reproducible).
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. Static analysis. Fails the run on lint errors.
+      - name: Lint
+        run: npm run lint
+
+      # 5. Production build. Fails the run if the app doesn't compile.
+      #    No VITE_* variables here: the contact form falls back to mailto.
+      - name: Build
+        run: npm run build
