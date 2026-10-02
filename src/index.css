@@ -312,3 +312,68 @@ body {
     stroke-dashoffset: 0;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Project modal (<dialog>): fades/scales in on desktop, slides up as a
+   bottom sheet on phones. `.is-closing` plays the exit before close().
+--------------------------------------------------------------------------- */
+html {
+  scrollbar-gutter: stable; /* no layout shift when the page scroll locks */
+}
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+  }
+}
+@keyframes modal-out {
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes sheet-out {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+.modal-backdrop {
+  animation: backdrop-in 0.35s ease-out both;
+}
+.is-closing .modal-backdrop {
+  animation: backdrop-out 0.25s ease-in both;
+}
+.modal-panel {
+  animation: modal-in 0.5s var(--ease-out-expo) both;
+}
+.is-closing .modal-panel {
+  animation: modal-out 0.22s ease-in both;
+}
+@media (max-width: 639px) {
+  .modal-panel {
+    animation-name: sheet-in;
+  }
+  .is-closing .modal-panel {
+    animation: sheet-out 0.28s ease-in both;
+  }
+}

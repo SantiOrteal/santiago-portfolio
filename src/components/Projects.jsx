@@ -1,64 +1,19 @@
-import { ArrowUpRight, ExternalLink, Hammer, Info } from "lucide-react";
+import { useCallback, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 import { useSpotlight } from "../hooks/usePointer";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
-import { GithubIcon } from "./BrandIcons";
 import SectionHeader from "./SectionHeader";
-import projectDreambox from "../assets/project-dreambox.png";
+import ProjectModal from "./ProjectModal";
+import { ProjectCover, WipBadge } from "./ProjectParts";
 
-// Cover images referenced by name from content.js (`cover: "dreambox"`)
-const covers = { dreambox: projectDreambox };
-const accents = ["#5b8def", "#9b87f5", "#6ee7b7", "#f5b97a"];
-
-const realLink = (url) => (url && url !== "#" ? url : null);
-
-// Generated cover for projects without an illustration or screenshot.
-function GeneratedCover({ title, accent }) {
-  // "BuenFinPromo" -> "BFP", "Warehouse Ops Dashboard" -> "WOD"
-  const initials = title
-    .split(/\s+|(?=[A-Z][a-z])/)
-    .filter(Boolean)
-    .map((w) => w[0])
-    .join("")
-    .slice(0, 3);
-
-  return (
-    <div className="relative h-full w-full bg-surface-2">
-      <div
-        className="absolute inset-0 opacity-[0.12] transition-transform duration-[1.2s] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110"
-        style={{
-          backgroundImage: `linear-gradient(to right, ${accent} 1px, transparent 1px), linear-gradient(to bottom, ${accent} 1px, transparent 1px)`,
-          backgroundSize: "24px 24px",
-          maskImage: "radial-gradient(circle at 70% 30%, #000, transparent 75%)",
-          WebkitMaskImage: "radial-gradient(circle at 70% 30%, #000, transparent 75%)",
-        }}
-      />
-      <div
-        className="absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-30 blur-3xl transition-opacity duration-700 group-hover:opacity-60"
-        style={{ background: accent }}
-      />
-      <span
-        className="absolute bottom-3 left-5 font-display text-6xl font-semibold tracking-tighter opacity-25 transition-[opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-1 group-hover:opacity-45"
-        style={{ color: accent }}
-      >
-        {initials}
-      </span>
-    </div>
-  );
-}
-
-function ProjectCard({ project, index, labels }) {
+function ProjectCard({ project, index, labels, onOpen }) {
   const revealRef = useReveal();
   const spotRef = useSpotlight();
-  const accent = accents[index % accents.length];
   const isWip = project.status === "wip";
-  const repo = realLink(project.repo);
-  const demo = realLink(project.demo);
-  const mainHref = demo || realLink(project.href) || repo;
-  // Screenshot first, then a named illustration, otherwise a generated cover.
-  const image = project.image || covers[project.cover];
-  const paragraphs = [].concat(project.description);
+  // Cards show the short summary; the full description lives in the modal.
+  const summary = project.summary || [].concat(project.description)[0];
 
   return (
     <article
@@ -68,91 +23,34 @@ function ProjectCard({ project, index, labels }) {
     >
       <div
         ref={spotRef}
-        className="spotlight group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5"
+        className="spotlight group relative flex h-full flex-col overflow-hidden rounded-lg border border-border bg-surface transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-4 has-[:focus-visible]:outline-blue"
       >
         <div className="relative aspect-video overflow-hidden border-b border-border-soft">
-          {image ? (
-            <img
-              src={image}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-            />
-          ) : (
-            <GeneratedCover title={project.title} accent={accent} />
-          )}
-          {/* soft fade into the card body */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-surface/80 to-transparent" />
+          <ProjectCover project={project} index={index} />
         </div>
 
         <div className="flex flex-1 flex-col p-6">
-          <div className="mb-4 flex items-center justify-between gap-3">
+          <div className="mb-3 flex items-center justify-between gap-3">
             <span className="font-mono text-[11px] uppercase tracking-wide text-ink-dim">
               {project.kind}
             </span>
-            {isWip ? (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[#f5b97a]/30 bg-[#f5b97a]/10 px-2.5 py-0.5 font-mono text-[10.5px] text-[#f5b97a]">
-                <Hammer size={11} strokeWidth={2} />
-                {labels.wipLabel}
-              </span>
-            ) : (
-              mainHref && (
-                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-border-soft text-ink-muted transition-colors duration-300 group-hover:border-blue-dim group-hover:text-blue">
-                  <ArrowUpRight
-                    size={14}
-                    strokeWidth={1.75}
-                    className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                  />
-                </span>
-              )
-            )}
+            {isWip && <WipBadge label={labels.wipLabel} />}
           </div>
 
           <h3 className="font-display text-xl font-medium text-ink">
-            {mainHref ? (
-              // Stretched link: the whole card is clickable, inner links still work.
-              <a
-                href={mainHref}
-                target="_blank"
-                rel="noreferrer"
-                className="after:absolute after:inset-0 after:z-0"
-              >
-                {project.title}
-              </a>
-            ) : (
-              project.title
-            )}
+            {/* Stretched button: the whole card opens the details modal. */}
+            <button
+              type="button"
+              onClick={() => onOpen(index)}
+              aria-haspopup="dialog"
+              className="text-left outline-none after:absolute after:inset-0 after:z-0"
+            >
+              {project.title}
+            </button>
           </h3>
-          <div className="mt-3 space-y-3">
-            {paragraphs.map((text, i) => (
-              <p key={i} className="text-[14.5px] leading-relaxed text-ink-muted">
-                {text}
-              </p>
-            ))}
-          </div>
-
-          {project.note && (
-            <p className="mt-4 flex gap-2 rounded-md border border-border-soft bg-surface-2/60 p-3 text-[12px] leading-relaxed text-ink-dim">
-              <Info size={14} strokeWidth={1.75} className="mt-0.5 shrink-0 text-blue-soft" aria-hidden="true" />
-              <span>{project.note}</span>
-            </p>
-          )}
-
-          {isWip && typeof project.progress === "number" && (
-            <div className="mt-5">
-              <div className="mb-1.5 flex justify-between font-mono text-[10.5px] text-ink-dim">
-                <span>{labels.progressLabel}</span>
-                <span>{project.progress}%</span>
-              </div>
-              <div className="h-1 overflow-hidden rounded-full bg-surface-2">
-                <div
-                  className="h-full origin-left rounded-full bg-gradient-to-r from-[#f5b97a] to-[#f59e7a] transition-transform delay-300 duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] [.reveal:not(.is-visible)_&]:scale-x-0"
-                  style={{ width: `${project.progress}%` }}
-                />
-              </div>
-            </div>
-          )}
+          <p className="mt-2.5 line-clamp-3 text-[14.5px] leading-relaxed text-ink-muted">
+            {summary}
+          </p>
 
           <div className="mt-auto pt-6">
             <ul className="flex flex-wrap gap-2 border-t border-border-soft pt-5">
@@ -165,31 +63,17 @@ function ProjectCard({ project, index, labels }) {
                 </li>
               ))}
             </ul>
-
-            {(repo || demo) && (
-              <div className="relative z-10 mt-4 flex gap-4 font-mono text-[12px]">
-                {repo && (
-                  <a
-                    href={repo}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-ink-muted transition-colors hover:text-blue"
-                  >
-                    <GithubIcon size={13} /> {labels.codeLabel}
-                  </a>
-                )}
-                {demo && (
-                  <a
-                    href={demo}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 text-ink-muted transition-colors hover:text-blue"
-                  >
-                    <ExternalLink size={13} strokeWidth={1.75} /> {labels.demoLabel}
-                  </a>
-                )}
-              </div>
-            )}
+            <span
+              aria-hidden="true"
+              className="mt-5 inline-flex items-center gap-1.5 font-mono text-[12px] text-blue-soft transition-colors duration-300 group-hover:text-ink"
+            >
+              {labels.detailsLabel}
+              <ArrowRight
+                size={13}
+                strokeWidth={1.75}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </span>
           </div>
         </div>
       </div>
@@ -200,6 +84,9 @@ function ProjectCard({ project, index, labels }) {
 export default function Projects() {
   const { language } = useLanguage();
   const { projects } = getContent(language);
+  const [openIndex, setOpenIndex] = useState(null);
+  const close = useCallback(() => setOpenIndex(null), []);
+
   return (
     <section
       id="projects"
@@ -215,10 +102,20 @@ export default function Projects() {
               project={project}
               index={i}
               labels={projects}
+              onOpen={setOpenIndex}
             />
           ))}
         </div>
       </div>
+
+      {openIndex !== null && (
+        <ProjectModal
+          project={projects.items[openIndex]}
+          index={openIndex}
+          labels={projects}
+          onClose={close}
+        />
+      )}
     </section>
   );
 }

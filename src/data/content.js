@@ -182,7 +182,12 @@ const localizedContent = {
       progressLabel: "progreso",
       codeLabel: "Código",
       demoLabel: "Demo",
+      detailsLabel: "Ver detalles",
+      closeLabel: "Cerrar",
+      aboutLabel: "Sobre el proyecto",
+      techLabel: "Tecnologías",
       // Campos opcionales por proyecto:
+      //   summary: resumen corto para la tarjeta; description va completa en el modal
       //   status: "wip" → etiqueta "En desarrollo"; progress: 0–100 → barra
       //   repo / demo: enlaces separados al código y al sitio en vivo
       //   image: captura propia; cover: "dreambox" usa una imagen registrada en Projects.jsx
@@ -192,6 +197,7 @@ const localizedContent = {
       items: [
         {
           title: "DreamBox: sitio web corporativo",
+          summary: "Sitio de mi empresa de software y soluciones IT: minimalista, inspirado en Apple y con animaciones al hacer scroll.",
           cover: "dreambox",
           description: [
             "Landing page para DreamBox, una empresa de desarrollo de software y soluciones IT (soporte técnico, desarrollo web y servicios de infraestructura).",
@@ -204,6 +210,7 @@ const localizedContent = {
         },
         {
           title: "StoryFrame",
+          summary: "Álbum digital interactivo tipo “stories” para regalar: fotos, frases y música con Spotify, en un diseño minimalista en blanco y negro.",
           description:
             "StoryFrame es un álbum digital interactivo pensado como regalo para una pareja: combina fotos, frases y música en una experiencia tipo \"stories\" — con portada, capítulos que se recorren con swipe, y un reproductor de Spotify embebido — todo envuelto en un diseño minimalista en blanco y negro. Está construido para ser reutilizable: cualquier persona podrá crear el suyo, personalizando nombres, capítulos y canción, sin tocar código.",
           tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
@@ -213,6 +220,7 @@ const localizedContent = {
         },
         {
           title: "BuenFinPromo",
+          summary: "Comparador y simulador de promociones bancarias para El Buen Fin: estima cuánto pagarías con cada banco antes de comprar.",
           // Varios párrafos: se muestran uno debajo de otro en la tarjeta
           description: [
             "BuenFinPromo es una herramienta de comparación y simulación que ayuda a los usuarios a identificar qué promociones bancarias pueden resultar más convenientes para sus compras durante El Buen Fin.",
@@ -425,9 +433,14 @@ const localizedContent = {
       progressLabel: "progress",
       codeLabel: "Code",
       demoLabel: "Demo",
+      detailsLabel: "View details",
+      closeLabel: "Close",
+      aboutLabel: "About the project",
+      techLabel: "Tech stack",
       items: [
         {
           title: "DreamBox: corporate website",
+          summary: "Website for my software and IT solutions company: minimalist, Apple-inspired, with scroll-driven animations.",
           cover: "dreambox",
           description: [
             "Landing page for DreamBox, a software development and IT solutions company (technical support, web development, and infrastructure services).",
@@ -440,6 +453,7 @@ const localizedContent = {
         },
         {
           title: "StoryFrame",
+          summary: "Interactive “stories”-style digital album made as a gift: photos, quotes, and music with Spotify, in a minimalist black-and-white design.",
           description:
             "StoryFrame is an interactive digital album designed as a gift for a partner: it combines photos, quotes, and music in a \"stories\"-style experience — with a cover, chapters you swipe through, and an embedded Spotify player — all wrapped in a minimalist black-and-white design. It is built to be reusable: anyone will be able to create their own, customizing names, chapters, and song without touching code.",
           tags: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS"],
@@ -449,6 +463,7 @@ const localizedContent = {
         },
         {
           title: "BuenFinPromo",
+          summary: "Bank promotion comparator and simulator for El Buen Fin: estimates how much you would pay with each bank before you buy.",
           // Varios párrafos: se muestran uno debajo de otro en la tarjeta
           description: [
             "BuenFinPromo is a comparison and simulation tool that helps users identify which bank promotions may be the most convenient for their purchases during El Buen Fin, Mexico’s biggest shopping weekend.",
