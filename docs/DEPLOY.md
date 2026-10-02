@@ -341,7 +341,7 @@ En el repo: **Settings → Secrets and variables → Actions**.
 | Nombre | Valor | ¿Obligatorio? |
 |---|---|---|
 | `VITE_WEB3FORMS_KEY` | Tu access key de Web3Forms | Para el formulario por correo |
-| `VITE_N8N_WEBHOOK_URL` | La URL de producción de tu webhook | Para el formulario por Telegram |
+| `VITE_N8N_WEBHOOK_URL` | La URL de producción de tu webhook | Para el segundo canal del formulario |
 
 > ¿Por qué estas van en *Variables* y no en *Secrets*? Porque terminan
 > visibles en el JavaScript público de todas formas. Los *Secrets* son para lo
@@ -413,8 +413,8 @@ Al final:
 
 - [ ] `https://santiorteal.com` abre el sitio con candado 🔒
 - [ ] `https://www.santiorteal.com` redirige a `https://santiorteal.com`
-- [ ] Agrega `https://santiorteal.com` a *Allowed Origins* en n8n
-  (ver `docs/CONTACT_FORM_HANDOFF.md`)
+- [ ] Agrega `https://santiorteal.com` a *Allowed Origins* en el nodo Webhook
+  de tu workflow de n8n
 - [ ] Registra el sitio en [Google Search Console](https://search.google.com/search-console)
   y envía `https://santiorteal.com/sitemap.xml`
 

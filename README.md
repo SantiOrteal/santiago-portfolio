@@ -58,8 +58,8 @@ All of them are optional. Vite inlines them into the public bundle at build time
 |---|---|
 | `VITE_SITE_URL` | Public origin for canonical, `hreflang` and JSON-LD URLs |
 | `VITE_WEB3FORMS_KEY` | Web3Forms access key (email channel) |
-| `VITE_N8N_WEBHOOK_URL` | n8n webhook URL (Telegram channel) |
-| `VITE_N8N_WEBHOOK_TOKEN` | Shared header value checked by the n8n workflow |
+| `VITE_N8N_WEBHOOK_URL` | Webhook URL for the second delivery channel |
+| `VITE_N8N_WEBHOOK_TOKEN` | Optional shared value checked by the webhook |
 
 ## Project structure
 
@@ -94,7 +94,6 @@ git push origin v1.0.0   # → builds and publishes to santiorteal.com
 ```
 
 Full setup guide (Cloudflare Pages, API token, GitHub secrets, custom domain): [`docs/DEPLOY.md`](docs/DEPLOY.md).
-Contact form setup (Web3Forms + n8n): [`docs/CONTACT_FORM_HANDOFF.md`](docs/CONTACT_FORM_HANDOFF.md).
 
 ## License
 

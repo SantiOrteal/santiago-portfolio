@@ -1,8 +1,7 @@
 // Sends a contact-form message to every configured channel in parallel.
-// Setup and the reasoning behind it: docs/CONTACT_FORM_HANDOFF.md
 //
 //   VITE_WEB3FORMS_KEY     → Web3Forms delivers the message to your inbox
-//   VITE_N8N_WEBHOOK_URL   → n8n workflow in the homelab (Telegram, etc.)
+//   VITE_N8N_WEBHOOK_URL   → n8n webhook (second delivery channel)
 //   VITE_N8N_WEBHOOK_TOKEN → optional shared header checked by the workflow
 //
 // The message counts as sent when at least one channel accepts it, so the
