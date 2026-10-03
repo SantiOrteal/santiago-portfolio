@@ -2,8 +2,6 @@
 # Goal: publish the site to Cloudflare Pages, but ONLY when you decide:
 #   • the "Run workflow" button in GitHub → Actions → Deploy, or
 #   • pushing a version tag:  git tag v1.0.0 && git push origin v1.0.0
-#
-# Full explanation and setup: docs/DEPLOY.md
 
 name: Deploy
 

@@ -1,8 +1,6 @@
 # CI = Continuous Integration.
 # Goal: every change is checked automatically (lint + build) before it can
 # reach production. It never deploys anything.
-#
-# Full explanation: docs/DEPLOY.md
 
 name: CI
 

@@ -93,8 +93,6 @@ git tag v1.0.0
 git push origin v1.0.0   # → builds and publishes to santiorteal.com
 ```
 
-Full setup guide (Cloudflare Pages, API token, GitHub secrets, custom domain): [`docs/DEPLOY.md`](docs/DEPLOY.md).
-
 ## License
 
 [MIT](LICENSE) © Santiago Ortega
