@@ -6,7 +6,7 @@ export const profile = {
   name: "Santiago Ortega",
   role: "Full Stack Developer",
   location: "Saltillo / Monterrey, México",
-  email: "santiago.orteal@gmail.com",
+  email: "santiago@santiorteal.com",
   github: "https://github.com/SantiOrteal",
   linkedin: "https://www.linkedin.com/in/santiago-orteal/",
 };
