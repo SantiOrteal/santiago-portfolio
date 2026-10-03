@@ -1,0 +1,74 @@
+# CD = Continuous Delivery.
+# Goal: publish the site to Cloudflare Pages, but ONLY when you decide:
+#   • the "Run workflow" button in GitHub → Actions → Deploy, or
+#   • pushing a version tag:  git tag v1.0.0 && git push origin v1.0.0
+#
+# Full explanation and setup: docs/DEPLOY.md
+
+name: Deploy
+
+on:
+  workflow_dispatch: # manual button
+  push:
+    tags: ["v*"] # v1.0.0, v1.2.3…
+
+# Never run two deploys at the same time; queue them instead of cancelling.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build & deploy to Cloudflare Pages
+    # Guard: the manual button only deploys from master (tags always pass).
+    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # A GitHub "environment": shows the live URL in the repo and lets you
+    # require your own approval before each deploy (Settings → Environments).
+    environment:
+      name: production
+      url: https://santiorteal.com
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Same safety check as CI: never publish code that fails lint.
+      - name: Lint
+        run: npm run lint
+
+      # Vite inlines VITE_* values into the JS bundle at build time.
+      #   vars.*    → GitHub "Variables" (visible, non-sensitive)
+      #   secrets.* → GitHub "Secrets"   (encrypted, masked in logs)
+      - name: Build
+        run: npm run build
+        env:
+          VITE_SITE_URL: https://santiorteal.com
+          VITE_WEB3FORMS_KEY: ${{ vars.VITE_WEB3FORMS_KEY }}
+          VITE_N8N_WEBHOOK_URL: ${{ vars.VITE_N8N_WEBHOOK_URL }}
+          VITE_N8N_WEBHOOK_TOKEN: ${{ secrets.VITE_N8N_WEBHOOK_TOKEN }}
+
+      # Upload dist/ to Cloudflare Pages with Wrangler (Cloudflare's CLI).
+      # --branch=main is a Pages label, not your git branch: it must match the
+      # project's production branch so the deploy goes live (not a preview).
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4"
+          command: pages deploy dist --project-name=santiorteal --branch=main --commit-dirty=true

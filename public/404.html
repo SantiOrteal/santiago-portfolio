@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#0A0E14" />
+    <title>404 · Santiago Ortega</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0e14;
+        --surface: #10141c;
+        --surface-2: #151a24;
+        --border: #3c4868;
+        --border-soft: #2b3552;
+        --ink: #f4f5f8;
+        --muted: #c4cbdc;
+        --dim: #9299b0;
+        --blue: #5b8def;
+        --blue-soft: #9db8f2;
+        --mint: #6ee7b7;
+        --red: #f5a3a3;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: Inter, system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        display: grid;
+        place-items: center;
+        min-height: 100svh;
+        padding: 24px 16px;
+        position: relative;
+        overflow: hidden;
+      }
+      /* blueprint grid + glow, same as the main site */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: -56px;
+        background-image:
+          linear-gradient(to right, rgba(91, 141, 239, 0.06) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(91, 141, 239, 0.06) 1px, transparent 1px);
+        background-size: 56px 56px;
+        mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 100%);
+        animation: drift 14s linear infinite;
+        pointer-events: none;
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        left: 50%;
+        top: 35%;
+        width: 640px;
+        height: 640px;
+        transform: translate(-50%, -50%);
+        background: radial-gradient(closest-side, rgba(91, 141, 239, 0.14), transparent);
+        pointer-events: none;
+      }
+      @keyframes drift {
+        to {
+          transform: translate3d(-56px, -56px, 0);
+        }
+      }
+      main {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        max-width: 560px;
+        text-align: center;
+      }
+      .code {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 600;
+        font-size: clamp(5.5rem, 22vw, 9rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+        margin: 0;
+        background: linear-gradient(100deg, var(--blue-soft), var(--blue) 45%, #9b87f5);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      h1 {
+        font-family: "Space Grotesk", sans-serif;
+        font-weight: 500;
+        font-size: clamp(1.4rem, 4vw, 1.9rem);
+        margin: 16px 0 8px;
+        text-wrap: balance;
+      }
+      .sub {
+        color: var(--dim);
+        margin: 0;
+        line-height: 1.6;
+      }
+      .terminal {
+        margin: 32px auto 0;
+        text-align: left;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: rgba(16, 20, 28, 0.85);
+        overflow: hidden;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+      }
+      .bar {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border-soft);
+        background: rgba(21, 26, 36, 0.7);
+        color: var(--dim);
+        font-size: 11px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .out {
+        padding: 14px 16px;
+        line-height: 1.8;
+        overflow-x: auto;
+        white-space: nowrap;
+      }
+      .prompt {
+        color: var(--mint);
+      }
+      .err {
+        color: var(--red);
+      }
+      .muted {
+        color: var(--dim);
+      }
+      .caret {
+        display: inline-block;
+        width: 7px;
+        height: 1.1em;
+        vertical-align: -2px;
+        background: var(--blue);
+        animation: blink 1s steps(1) infinite;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+      .actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 28px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 18px;
+        border-radius: 8px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        text-decoration: none;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, color 0.3s;
+      }
+      .btn.primary {
+        background: var(--blue);
+        color: var(--bg);
+        font-weight: 500;
+        box-shadow: 0 8px 30px -8px rgba(91, 141, 239, 0.7);
+      }
+      .btn.secondary {
+        border: 1px solid var(--border);
+        color: var(--ink);
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+      }
+      .btn.secondary:hover {
+        border-color: var(--blue);
+        color: var(--blue-soft);
+      }
+      .btn:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body::before,
+        .caret {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="code" aria-hidden="true">404</p>
+      <h1>Esta página no existe · Page not found</h1>
+      <p class="sub">
+        Puede que el enlace esté roto o que la página se haya movido.<br />
+        The link may be broken or the page may have moved.
+      </p>
+
+      <div class="terminal" aria-hidden="true">
+        <div class="bar">
+          <span class="dot" style="background: rgba(255, 95, 87, 0.8)"></span>
+          <span class="dot" style="background: rgba(254, 188, 46, 0.8)"></span>
+          <span class="dot" style="background: rgba(40, 200, 64, 0.8)"></span>
+          <span style="margin-left: 8px">santiago@portfolio: ~</span>
+        </div>
+        <div class="out">
+          <div><span class="prompt">santiago@portfolio:~$</span> cd <span id="path">/esta-pagina</span></div>
+          <div class="err">cd: no such file or directory</div>
+          <div><span class="prompt">santiago@portfolio:~$</span> <span class="muted">goto home</span> <span class="caret"></span></div>
+        </div>
+      </div>
+
+      <nav class="actions" aria-label="Volver · Go back">
+        <a class="btn primary" href="/es-mx/">← Ir al inicio</a>
+        <a class="btn secondary" href="/en/">← Go home</a>
+      </nav>
+    </main>
+
+    <script>
+      // Show the path the visitor actually tried, inside the fake terminal.
+      var el = document.getElementById("path");
+      if (el && location.pathname.length > 1) el.textContent = location.pathname;
+    </script>
+  </body>
+</html>
