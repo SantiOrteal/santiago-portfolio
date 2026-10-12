@@ -440,7 +440,8 @@ export default function Bit() {
             aria-label={script.buttonLabel}
             aria-haspopup="menu"
             aria-expanded={menuOpen}
-            className="bit-enter bit-button pointer-events-auto block h-[62px] w-[52px] rounded-2xl outline-offset-4 md:h-[86px] md:w-[72px]"
+            // the frosted backdrop keeps Bit readable over text and images
+            className="bit-enter bit-button pointer-events-auto block h-[74px] w-[64px] rounded-[22px] border border-border-soft bg-surface/85 px-1.5 pb-1 pt-2 shadow-[0_14px_40px_-12px_rgba(0,0,0,0.75)] outline-offset-4 backdrop-blur-md transition-colors duration-300 hover:border-border md:h-[98px] md:w-[86px] md:px-2 md:pb-1.5 md:pt-3"
           >
             <BitFace mood={mood} />
           </button>
