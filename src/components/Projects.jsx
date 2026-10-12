@@ -6,6 +6,7 @@ import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import ProjectModal from "./ProjectModal";
+import { emitBit } from "../lib/bit";
 import { ProjectCover, WipBadge } from "./ProjectParts";
 
 function ProjectCard({ project, index, labels, onOpen }) {
@@ -85,7 +86,11 @@ export default function Projects() {
   const { language } = useLanguage();
   const { projects } = getContent(language);
   const [openIndex, setOpenIndex] = useState(null);
-  const close = useCallback(() => setOpenIndex(null), []);
+  const close = useCallback(() => {
+    // Bit comments on the project the visitor just looked at.
+    emitBit("project", { title: projects.items[openIndex]?.title });
+    setOpenIndex(null);
+  }, [projects, openIndex]);
 
   return (
     <section

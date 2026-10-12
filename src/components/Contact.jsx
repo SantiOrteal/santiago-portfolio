@@ -8,6 +8,7 @@ import { useLanguage } from "../context/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import ContactForm from "./ContactForm";
 import { openTerminal, shortcutLabel } from "../lib/terminal";
+import { emitBit } from "../lib/bit";
 
 function MagneticLink({ href, children }) {
   const ref = useMagnetic(0.2);
@@ -46,6 +47,7 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(profile.email);
       setCopied(true);
+      emitBit("copied");
       if (copyTimeoutRef.current !== null) {
         clearTimeout(copyTimeoutRef.current);
       }
