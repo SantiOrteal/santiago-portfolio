@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ArrowUp, Check, Copy, Mail, SquareTerminal } from "lucide-react";
+import { ArrowUp, Bot, Check, Copy, Mail, SquareTerminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 import { useReveal } from "../hooks/useReveal";
 import { useMagnetic, useSpotlight } from "../hooks/usePointer";
@@ -8,6 +8,7 @@ import { useLanguage } from "../context/LanguageContext";
 import SectionHeader from "./SectionHeader";
 import ContactForm from "./ContactForm";
 import { openTerminal, shortcutLabel } from "../lib/terminal";
+import { emitBit } from "../lib/bit";
 
 function MagneticLink({ href, children }) {
   const ref = useMagnetic(0.2);
@@ -46,6 +47,7 @@ export default function Contact() {
     try {
       await navigator.clipboard.writeText(profile.email);
       setCopied(true);
+      emitBit("copied");
       if (copyTimeoutRef.current !== null) {
         clearTimeout(copyTimeoutRef.current);
       }
@@ -136,11 +138,20 @@ export default function Contact() {
                       {contact.linkedinLabel}
                     </MagneticLink>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() => emitBit("open-menu")}
+                    className="group mt-1 inline-flex items-center gap-2 font-mono text-[12px] text-ink-dim transition-colors hover:text-blue-soft"
+                  >
+                    <Bot size={15} strokeWidth={1.75} className="transition-transform duration-300 group-hover:-rotate-12" />
+                    {contact.askBit}
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div style={{ "--i": 1 }}>
+            <div style={{ "--i": 1 }} data-flash className="rounded-xl">
               <ContactForm t={contact.form} language={language} />
             </div>
           </div>

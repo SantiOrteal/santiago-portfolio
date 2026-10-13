@@ -1,22 +1,94 @@
+import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { useReveal } from "../hooks/useReveal";
 import { useSpotlight } from "../hooks/usePointer";
 import { useCountUp } from "../hooks/useCountUp";
 import { getContent } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import SectionHeader from "./SectionHeader";
+import Tip from "./Tip";
 
-function Stat({ value, suffix = "", label }) {
+function Stat({ value, suffix = "", label, hint, align }) {
   const [ref, current] = useCountUp(value);
   return (
     <div ref={ref} className="px-4 py-5 first:pl-0 last:pr-0">
-      <div className="font-display text-3xl font-semibold tabular-nums text-ink md:text-4xl">
-        {current}
-        <span className="text-gradient">{suffix}</span>
-      </div>
-      <p className="mt-1.5 font-mono text-[11px] leading-snug text-ink-dim">
-        {label}
-      </p>
+      {/* the hint explains where the number comes from */}
+      <Tip
+        tip={hint}
+        as="span"
+        align={align}
+        className="block cursor-help rounded-sm text-left outline-offset-4"
+      >
+        <span className="block font-display text-3xl font-semibold tabular-nums text-ink md:text-4xl">
+          {current}
+          <span className="text-gradient">{suffix}</span>
+        </span>
+        <span className="mt-1.5 block font-mono text-[11px] leading-snug text-ink-dim underline decoration-border decoration-dotted underline-offset-4">
+          {label}
+        </span>
+      </Tip>
     </div>
+  );
+}
+
+/** Wraps glossary terms found in `text` with a tooltip. */
+function withGlossary(text, glossary) {
+  const terms = Object.keys(glossary);
+  if (!terms.length) return text;
+  const lookup = Object.fromEntries(terms.map((t) => [t.toLowerCase(), glossary[t]]));
+  const escape = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const pattern = new RegExp(`(${terms.map(escape).join("|")})`, "gi");
+  return text.split(pattern).map((part, i) =>
+    lookup[part.toLowerCase()] ? (
+      <Tip
+        key={i}
+        tip={lookup[part.toLowerCase()]}
+        className="cursor-help underline decoration-blue-dim decoration-dotted underline-offset-4 transition-colors hover:text-ink hover:decoration-blue"
+      >
+        {part}
+      </Tip>
+    ) : (
+      part
+    )
+  );
+}
+
+function WhoamiLine({ line, open, onToggle }) {
+  return (
+    <li>
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={open}
+        className="group flex w-full items-baseline justify-between gap-4 text-left font-mono text-[13px]"
+      >
+        <span className="flex items-center gap-1.5 text-ink-dim transition-colors duration-300 group-hover:text-ink-muted">
+          <ChevronDown
+            size={12}
+            strokeWidth={2}
+            className={`shrink-0 transition-transform duration-300 ${open ? "rotate-0 text-blue-soft" : "-rotate-90"}`}
+          />
+          {line.k}
+        </span>
+        <span className="mb-1 flex-1 border-b border-dashed border-border-soft" />
+        <span className="text-right text-blue-soft transition-colors duration-300 group-hover:text-ink">
+          {line.v}
+        </span>
+      </button>
+      {/* grid-rows trick animates the detail without measuring */}
+      <div
+        className={`grid transition-[grid-template-rows] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+        }`}
+      >
+        <p className="overflow-hidden pl-[18px] text-[12.5px] leading-relaxed text-ink-muted">
+          <span className="block pt-1.5">
+            <span className="text-mint">→ </span>
+            {line.d}
+          </span>
+        </p>
+      </div>
+    </li>
   );
 }
 
@@ -24,6 +96,7 @@ export default function About() {
   const textRef = useReveal();
   const asideRef = useReveal();
   const spotRef = useSpotlight();
+  const [openLine, setOpenLine] = useState(null);
   const { language } = useLanguage();
   const { about, skills, homelab } = getContent(language);
 
@@ -52,7 +125,7 @@ export default function About() {
                     : "max-w-2xl text-[15px] leading-relaxed text-ink-muted md:text-base"
                 }
               >
-                {p}
+                {withGlossary(p, about.glossary)}
               </p>
             ))}
           </div>
@@ -78,22 +151,16 @@ export default function About() {
                     online
                   </span>
                 </div>
-                <dl className="space-y-3.5">
+                <ul className="space-y-3.5">
                   {about.card.lines.map((line) => (
-                    <div
+                    <WhoamiLine
                       key={line.k}
-                      className="group flex items-baseline justify-between gap-4 font-mono text-[13px]"
-                    >
-                      <dt className="text-ink-dim transition-colors duration-300 group-hover:text-ink-muted">
-                        {line.k}
-                      </dt>
-                      <span className="mb-1 flex-1 border-b border-dashed border-border-soft" />
-                      <dd className="text-right text-blue-soft transition-colors duration-300 group-hover:text-ink">
-                        {line.v}
-                      </dd>
-                    </div>
+                      line={line}
+                      open={openLine === line.k}
+                      onToggle={() => setOpenLine(openLine === line.k ? null : line.k)}
+                    />
                   ))}
-                </dl>
+                </ul>
               </div>
             </div>
 
@@ -101,9 +168,9 @@ export default function About() {
               style={{ "--i": 1 }}
               className="mt-5 grid grid-cols-3 divide-x divide-border-soft border-y border-border-soft"
             >
-              <Stat value={years} suffix="+" label={about.stats.years} />
-              <Stat value={techCount} label={about.stats.tech} />
-              <Stat value={serviceCount} label={about.stats.services} />
+              <Stat value={years} suffix="+" label={about.stats.years} hint={about.statsHint.years} align="left" />
+              <Stat value={techCount} label={about.stats.tech} hint={about.statsHint.tech} />
+              <Stat value={serviceCount} label={about.stats.services} hint={about.statsHint.services} align="right" />
             </div>
           </aside>
         </div>

@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { getContent, profile } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import { OPEN_EVENT, complete, rich, runCommand } from "../lib/terminal";
+import { emitBit } from "../lib/bit";
 
 const EXIT_MS = 300; // matches the modal exit animations in index.css
 const PROMPT = "santiago@portfolio:~$";
@@ -265,6 +266,11 @@ export default function Terminal() {
       case "lang":
         setLanguage(action.value);
         break;
+      case "bit":
+        // Bit dances once the terminal is out of the way.
+        setTimeout(() => emitBit("dance"), EXIT_MS + 20);
+        setLines((l) => [...l, echo, ...output]);
+        return true;
       case "goto":
         // Let the exit animation finish, then scroll.
         setTimeout(() => {
