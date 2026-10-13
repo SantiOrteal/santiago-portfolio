@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react";
-import { ExternalLink, Info, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Info, X } from "lucide-react";
 import { GithubIcon } from "./BrandIcons";
 import { ProjectCover, WipBadge } from "./ProjectParts";
 import { coverImageFor, realLink } from "../lib/projects";
@@ -11,7 +11,7 @@ const EXIT_MS = 300; // longest exit animation in index.css (sheet-out)
  * layer come for free. Mounted only while open; closing plays the exit
  * animation first and then calls `onClose`.
  */
-export default function ProjectModal({ project, index, labels, onClose }) {
+export default function ProjectModal({ project, index, labels, onClose, onStep }) {
   const dialogRef = useRef(null);
   const [closing, setClosing] = useState(false);
   const titleId = useId();
@@ -50,6 +50,11 @@ export default function ProjectModal({ project, index, labels, onClose }) {
         e.preventDefault();
         requestClose();
       }}
+      // ← → browse the other projects without closing the modal
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") onStep(-1);
+        if (e.key === "ArrowRight") onStep(1);
+      }}
       className={`fixed inset-0 m-0 h-full max-h-none w-full max-w-none overflow-hidden bg-transparent p-0 text-ink backdrop:bg-transparent ${
         closing ? "is-closing" : ""
       }`}
@@ -63,6 +68,24 @@ export default function ProjectModal({ project, index, labels, onClose }) {
 
       <div className="pointer-events-none relative flex h-full items-end justify-center sm:items-center sm:p-6">
         <article className="modal-panel pointer-events-auto relative flex max-h-[92svh] w-full flex-col overflow-hidden rounded-t-2xl border border-border bg-surface shadow-[0_40px_120px_-20px_rgba(0,0,0,0.8)] sm:max-h-[88svh] sm:max-w-2xl sm:rounded-2xl">
+          <div className="absolute right-16 top-4 z-10 flex gap-2">
+            {[
+              [-1, labels.prevLabel, ChevronLeft],
+              [1, labels.nextLabel, ChevronRight],
+            ].map(([step, label, Icon]) => (
+              <button
+                key={step}
+                type="button"
+                onClick={() => onStep(step)}
+                aria-label={label}
+                title={label}
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-bg/70 text-ink-muted backdrop-blur-md transition-[color,border-color] duration-300 hover:border-blue hover:text-ink"
+              >
+                <Icon size={16} strokeWidth={1.75} />
+              </button>
+            ))}
+          </div>
+
           <button
             type="button"
             onClick={requestClose}
@@ -72,7 +95,8 @@ export default function ProjectModal({ project, index, labels, onClose }) {
             <X size={16} strokeWidth={1.75} />
           </button>
 
-          <div className="overflow-y-auto overscroll-contain [scrollbar-color:var(--color-border)_transparent] [scrollbar-width:thin]">
+          {/* keyed by project so the entrance replays and the scroll resets */}
+          <div key={project.title} className="overflow-y-auto overscroll-contain [scrollbar-color:var(--color-border)_transparent] [scrollbar-width:thin]">
             {/* grab handle hint on phones */}
             <div className="absolute left-1/2 top-2 z-10 h-1 w-10 -translate-x-1/2 rounded-full bg-ink/30 sm:hidden" />
 

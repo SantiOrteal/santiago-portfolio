@@ -4,10 +4,19 @@
 //   emitBit("copied")                     → copied the email
 //   emitBit("project", { title })         → closed a project's details
 //   emitBit("dance")                      → easter egg
+//   emitBit("listening" | "sending" | "sent" | "error" | "mailto") → contact form
+//   emitBit("run" | "unavailable")        → hero code window
+//   emitBit("pinged")                     → homelab health check
+//   emitBit("tech", { tech })             → clicked a technology
+//   emitBit("open-menu")                  → open Bit's menu (restores it if hidden)
 //
 // Same pattern as `openTerminal()` in lib/terminal.js.
 
 export const BIT_EVENT = "portfolio:bit";
+
+/** Bit announces whether it is hidden, so the nav can offer to bring it back. */
+export const BIT_STATE_EVENT = "portfolio:bit-state";
+export const MINIMIZED_KEY = "bit-minimized";
 
 export const emitBit = (type, detail = {}) =>
   window.dispatchEvent(new CustomEvent(BIT_EVENT, { detail: { type, ...detail } }));

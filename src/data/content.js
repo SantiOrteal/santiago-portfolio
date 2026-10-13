@@ -44,6 +44,10 @@ const localizedContent = {
       compiling: "compilando…",
       compiled: "compilado con éxito",
       errors: "0 errores",
+      tabsLabel: "Archivos de ejemplo",
+      run: "ejecutar",
+      running: "ejecutando…",
+      shipped: "¡desplegado!",
     },
     terminal: {
       openLabel: "Abrir terminal",
@@ -91,6 +95,7 @@ const localizedContent = {
       menuLabel: "Opciones de Bit",
       closeBubble: "Cerrar mensaje",
       restoreLabel: "Mostrar a Bit",
+      copyAction: "Copiar correo",
       greeting: "¡Hola! Soy Bit 👋, el robot de Santiago. ¿Te doy un tour rapidito?",
       tourYes: "¡Dale!",
       tourNo: "Ahorita no",
@@ -132,6 +137,14 @@ const localizedContent = {
         back: "¡Volví! 🙌",
         wake: "¡No estaba dormido! Solo… optimizaba recursos.",
         dance: "♪ beep boop ♪",
+        run: "¡Compiló a la primera! Eso nunca pasa… Mira lo que construye 👇",
+        unavailable: "¿false? Nah, Santiago sí está disponible. Lo regreso a true 😅",
+        sending: "Enviando… 📡",
+        sent: "¡Mensaje entregado! Santiago te responde pronto 🎉",
+        sendError: "Uy, algo falló 😢 Puedo copiarte su correo para que le escribas directo.",
+        mailto: "Te abrí tu app de correo con el mensaje listo. ¡Solo dale enviar!",
+        pinged: "¡Todo arriba! Mi casa está en orden ✅",
+        tech: "{tech}: mira dónde lo usa 👇",
       },
       project: [
         "¿Qué te pareció {title}? Si buscas algo así, Santiago está a un mensaje.",
@@ -156,6 +169,19 @@ const localizedContent = {
         tech: "tecnologías en mi stack",
         services: "servicios en mi homelab",
       },
+      statsHint: {
+        years: "Contados desde 2019, cuando empecé como FrontEnd Developer.",
+        tech: "Tecnologías distintas que aparecen en «Cómo trabajo».",
+        services: "Servicios que corren hoy en mi homelab.",
+      },
+      // Términos que se explican con un tooltip dentro de los párrafos
+      glossary: {
+        "Supply Chain": "Cadena de suministro: cómo se compra, almacena y mueve el producto.",
+        Dynatrace: "Plataforma de observabilidad: métricas y trazas de aplicaciones en producción.",
+        Kibana: "Interfaz para buscar y visualizar logs (stack de Elastic).",
+        DataStax: "Plataforma de datos basada en Apache Cassandra.",
+        NetSuite: "ERP en la nube de Oracle para finanzas, inventario y compras.",
+      },
       paragraphs: [
         "Soy desarrollador Full Stack, con una fuerte orientación hacia el desarrollo frontend. Trabajo principalmente con React, JavaScript y TypeScript, creando interfaces donde la experiencia de usuario, el rendimiento y la claridad importan.",
         "Actualmente trabajo dentro de operaciones de Supply Chain, participando en procesos de Warehouse, Logistics y Purchasing. Mi trabajo combina desarrollo, resolución de problemas y análisis de sistemas empresariales, utilizando tecnologías como Dynatrace, Kibana y DataStax.",
@@ -164,11 +190,11 @@ const localizedContent = {
       card: {
         label: "whoami",
         lines: [
-          { k: "rol", v: "Full Stack Developer" },
-          { k: "desde", v: "2019" },
-          { k: "frontend", v: "React · TypeScript" },
-          { k: "backend", v: "Node.js · Java" },
-          { k: "base", v: "México" },
+          { k: "rol", v: "Full Stack Developer", d: "Fuerte en frontend, y también hago APIs y despliegues." },
+          { k: "desde", v: "2019", d: "Empecé como FrontEnd Developer en Grupo W." },
+          { k: "frontend", v: "React · TypeScript", d: "Interfaces que equipos de operación usan todos los días." },
+          { k: "backend", v: "Node.js · Java", d: "APIs y servicios con Node.js, Java y Spring Boot." },
+          { k: "base", v: "México", d: "Saltillo / Monterrey, abierto a trabajo remoto." },
         ],
       },
     },
@@ -177,6 +203,11 @@ const localizedContent = {
       label: "Cómo trabajo",
       heading: "Lo que aporto a un equipo, y dónde puedes comprobarlo.",
       evidenceLabel: "Evidencia",
+      usedIn: "Dónde uso {tech}",
+      inProjects: "Proyectos",
+      inExperience: "Experiencia",
+      usedElsewhere: "En mi día a día y en mis proyectos personales.",
+      closeUsage: "Cerrar",
       items: [
         {
           title: "Interfaces para operaciones reales",
@@ -233,12 +264,30 @@ const localizedContent = {
       ],
       outro:
         "Mi homelab funciona como un laboratorio personal donde aprendo, experimento y aplico conceptos de desarrollo, infraestructura y DevOps en proyectos reales.",
+      ping: "Hacer ping",
+      pinging: "haciendo ping…",
+      pingDone: "{ok}/{total} servicios responden",
+      serviceNotes: {
+        "CasaOS + Docker": "Administra los contenedores Docker con una interfaz sencilla.",
+        "Tailscale + Cloudflare Tunnel": "Acceso remoto privado y publicación segura sin abrir puertos.",
+        "Nginx Proxy Manager": "Proxy inverso con HTTPS para cada servicio.",
+        "Pi-hole": "DNS que bloquea anuncios y rastreadores en toda la red.",
+        "n8n + Node-RED": "Flujos de automatización. Aquí llegan los mensajes del formulario.",
+        "Home Assistant": "Controla y automatiza los dispositivos de la casa.",
+        "MQTT / Mosquitto": "Mensajería ligera entre dispositivos IoT.",
+        ESP32: "Microcontroladores con Wi-Fi para sensores y prototipos.",
+        Immich: "Respaldo de fotos y videos, alternativa a Google Photos.",
+        Nextcloud: "Nube personal para archivos, calendario y contactos.",
+        Vaultwarden: "Gestor de contraseñas compatible con Bitwarden.",
+        Authelia: "Inicio de sesión único y 2FA delante de los servicios.",
+      },
     },
 
     experience: {
       label: "Experiencia",
       heading: "Experiencia construyendo software y trabajando con sistemas reales.",
       currentLabel: "Actual",
+      yearLabel: "año",
       items: [
         {
           period: "2023 — Presente",
@@ -281,6 +330,8 @@ const localizedContent = {
       demoLabel: "Demo",
       detailsLabel: "Ver detalles",
       closeLabel: "Cerrar",
+      prevLabel: "Proyecto anterior",
+      nextLabel: "Proyecto siguiente",
       aboutLabel: "Sobre el proyecto",
       techLabel: "Tecnologías",
       // Campos opcionales por proyecto:
@@ -343,6 +394,7 @@ const localizedContent = {
       githubLabel: "GitHub",
       linkedinLabel: "LinkedIn",
       directLabel: "O escríbeme directo",
+      askBit: "Pregúntale a Bit",
       form: {
         title: "Envíame un mensaje",
         subtitle: "Te respondo normalmente en menos de 24 horas.",
@@ -406,6 +458,10 @@ const localizedContent = {
       compiling: "compiling…",
       compiled: "compiled successfully",
       errors: "0 errors",
+      tabsLabel: "Sample files",
+      run: "run",
+      running: "running…",
+      shipped: "shipped!",
     },
     terminal: {
       openLabel: "Open terminal",
@@ -452,6 +508,7 @@ const localizedContent = {
       menuLabel: "Bit's options",
       closeBubble: "Close message",
       restoreLabel: "Show Bit",
+      copyAction: "Copy email",
       greeting: "Hi! I'm Bit 👋, Santiago's robot. Want a quick tour?",
       tourYes: "Sure!",
       tourNo: "Not now",
@@ -493,6 +550,14 @@ const localizedContent = {
         back: "I'm back! 🙌",
         wake: "I wasn't asleep! Just… saving resources.",
         dance: "♪ beep boop ♪",
+        run: "Compiled on the first try! That never happens… Check out what he builds 👇",
+        unavailable: "false? Nah, Santiago is available. Switching it back to true 😅",
+        sending: "Sending… 📡",
+        sent: "Message delivered! Santiago will get back to you soon 🎉",
+        sendError: "Oops, something failed 😢 I can copy his email so you can write to him directly.",
+        mailto: "I opened your email app with the message ready. Just hit send!",
+        pinged: "Everything's up! My home is in order ✅",
+        tech: "{tech}: see where he uses it 👇",
       },
       project: [
         "What did you think of {title}? If you need something like it, Santiago is one message away.",
@@ -516,6 +581,19 @@ const localizedContent = {
         tech: "technologies in my stack",
         services: "services in my homelab",
       },
+      statsHint: {
+        years: "Counted from 2019, when I started as a FrontEnd Developer.",
+        tech: "Distinct technologies listed in “How I work”.",
+        services: "Services running in my homelab today.",
+      },
+      // Terms explained with a tooltip inside the paragraphs
+      glossary: {
+        "Supply Chain": "How products are bought, stored and moved.",
+        Dynatrace: "Observability platform: metrics and traces from production apps.",
+        Kibana: "UI for searching and visualizing logs (Elastic stack).",
+        DataStax: "Data platform built on Apache Cassandra.",
+        NetSuite: "Oracle's cloud ERP for finance, inventory and purchasing.",
+      },
       paragraphs: [
         "I am a Full Stack developer with a strong focus on frontend development. I mainly work with React, JavaScript, and TypeScript, creating interfaces where user experience, performance, and clarity matter.",
         "I currently work in Supply Chain operations, supporting Warehouse, Logistics, and Purchasing processes. My work combines development, problem-solving, and enterprise systems analysis using technologies such as Dynatrace, Kibana, and DataStax.",
@@ -524,11 +602,11 @@ const localizedContent = {
       card: {
         label: "whoami",
         lines: [
-          { k: "role", v: "Full Stack Developer" },
-          { k: "since", v: "2019" },
-          { k: "frontend", v: "React · TypeScript" },
-          { k: "backend", v: "Node.js · Java" },
-          { k: "base", v: "Mexico" },
+          { k: "role", v: "Full Stack Developer", d: "Strong on the frontend, and I also build APIs and deployments." },
+          { k: "since", v: "2019", d: "I started as a FrontEnd Developer at Grupo W." },
+          { k: "frontend", v: "React · TypeScript", d: "Interfaces that operations teams use every day." },
+          { k: "backend", v: "Node.js · Java", d: "APIs and services with Node.js, Java and Spring Boot." },
+          { k: "base", v: "Mexico", d: "Saltillo / Monterrey, open to remote work." },
         ],
       },
     },
@@ -536,6 +614,11 @@ const localizedContent = {
       label: "How I work",
       heading: "What I bring to a team, and where you can see it.",
       evidenceLabel: "Proof",
+      usedIn: "Where I use {tech}",
+      inProjects: "Projects",
+      inExperience: "Experience",
+      usedElsewhere: "In my day-to-day work and personal projects.",
+      closeUsage: "Close",
       items: [
         {
           title: "Interfaces for real operations",
@@ -592,11 +675,29 @@ const localizedContent = {
       ],
       outro:
         "My homelab is a personal laboratory where I learn, experiment, and apply development, infrastructure, and DevOps concepts to real projects.",
+      ping: "Ping",
+      pinging: "pinging…",
+      pingDone: "{ok}/{total} services responding",
+      serviceNotes: {
+        "CasaOS + Docker": "Manages the Docker containers with a simple UI.",
+        "Tailscale + Cloudflare Tunnel": "Private remote access and safe publishing without opening ports.",
+        "Nginx Proxy Manager": "Reverse proxy with HTTPS for every service.",
+        "Pi-hole": "DNS that blocks ads and trackers across the network.",
+        "n8n + Node-RED": "Automation flows. Messages from the contact form land here.",
+        "Home Assistant": "Controls and automates the devices at home.",
+        "MQTT / Mosquitto": "Lightweight messaging between IoT devices.",
+        ESP32: "Wi-Fi microcontrollers for sensors and prototypes.",
+        Immich: "Photo and video backup, an alternative to Google Photos.",
+        Nextcloud: "Personal cloud for files, calendar and contacts.",
+        Vaultwarden: "Password manager compatible with Bitwarden.",
+        Authelia: "Single sign-on and 2FA in front of the services.",
+      },
     },
     experience: {
       label: "Experience",
       heading: "Experience building software and working with real systems.",
       currentLabel: "Current",
+      yearLabel: "year",
       items: [
         {
           period: "2023 — Present",
@@ -638,6 +739,8 @@ const localizedContent = {
       demoLabel: "Demo",
       detailsLabel: "View details",
       closeLabel: "Close",
+      prevLabel: "Previous project",
+      nextLabel: "Next project",
       aboutLabel: "About the project",
       techLabel: "Tech stack",
       items: [
@@ -690,6 +793,7 @@ const localizedContent = {
       githubLabel: "GitHub",
       linkedinLabel: "LinkedIn",
       directLabel: "Or reach me directly",
+      askBit: "Ask Bit",
       form: {
         title: "Send me a message",
         subtitle: "I usually reply within 24 hours.",

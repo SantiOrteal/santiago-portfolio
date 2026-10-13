@@ -549,3 +549,41 @@ html:has(dialog[open]) {
     transform: translateY(8px) scale(0.92);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Interactive sections
+--------------------------------------------------------------------------- */
+/* keyboard users can stop the strip too */
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* homelab status LEDs breathe out of sync, like a real rack */
+.led-blink {
+  animation: led-blink 3s ease-in-out infinite;
+}
+@keyframes led-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* brief outline on the element an "evidence" link or the marquee points to */
+.flash-target {
+  animation: flash-target 1.6s var(--ease-out-expo);
+}
+@keyframes flash-target {
+  0%,
+  45% {
+    box-shadow:
+      0 0 0 2px rgba(91, 141, 239, 0.75),
+      0 0 40px -6px rgba(91, 141, 239, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(91, 141, 239, 0);
+  }
+}

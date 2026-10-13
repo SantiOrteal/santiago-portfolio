@@ -3,7 +3,7 @@ import { X } from "lucide-react";
 import { getContent, profile } from "../../data/content";
 import { useLanguage } from "../../context/LanguageContext";
 import { useScrollSpy } from "../../hooks/useScroll";
-import { BIT_EVENT, BIT_SECTIONS, fill, storage } from "../../lib/bit";
+import { BIT_EVENT, BIT_SECTIONS, BIT_STATE_EVENT, MINIMIZED_KEY, fill, storage } from "../../lib/bit";
 import { openTerminal } from "../../lib/terminal";
 import BitFace from "./BitFace";
 
@@ -11,12 +11,11 @@ const ENTER_DELAY_MS = 2500;
 const GREET_DELAY_MS = 900;
 const SLEEP_AFTER_MS = 30000;
 const QUIET_GAP_MS = 5000; // minimum time between unprompted comments
-const MINIMIZED_KEY = "bit-minimized";
 const GREETED_KEY = "bit-greeted";
 const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
 
 // How long a reaction shows on Bit's face before going back to idle.
-const MOOD_MS = { talking: 1800, happy: 2400, sad: 3500, dance: 3200 };
+const MOOD_MS = { talking: 1800, happy: 2400, sad: 3500, dance: 3200, listening: 4000 };
 
 const media = (q) => window.matchMedia(q).matches;
 const scrollToSection = (id) => document.getElementById(id)?.scrollIntoView();
@@ -149,6 +148,7 @@ export default function Bit() {
   /** Shows a bubble. Bubbles with buttons stay longer so people can answer. */
   const say = (text, { mood: nextMood = "talking", actions, ms } = {}) => {
     lastSaid.current = Date.now();
+    setMenuOpen(false); // whatever Bit says takes over the menu
     setMessage({ id: lastSaid.current, text, actions });
     react(nextMood);
     const duration = ms ?? (actions ? 15000 : Math.min(9000, 3500 + text.length * 45));
@@ -227,6 +227,21 @@ export default function Bit() {
     }
   };
 
+  // --- menu ---------------------------------------------------------------
+  const closeMenu = (restoreFocus) => {
+    setMenuOpen(false);
+    if (restoreFocus) buttonRef.current?.focus();
+  };
+
+  const toggleMenu = () => {
+    if (menuOpen) return closeMenu(false);
+    tour.current = null;
+    clearTimeout(timers.current.message);
+    setMessage(null);
+    if (mood === "sleeping") setMood("idle");
+    setMenuOpen(true);
+  };
+
   // --- entrance and greeting --------------------------------------------
   const greet = useEffectEvent(() => {
     if (!chatty || minimized || storage.get("sessionStorage", GREETED_KEY)) return;
@@ -268,16 +283,55 @@ export default function Bit() {
   }, [active]);
 
   // --- events from the rest of the page (emitBit) and the Konami code ----
-  const onBitEvent = useEffectEvent(({ type, title }) => {
+  const onBitEvent = useEffectEvent(({ type, title, tech }) => {
     if (type === "dance") return runAction("dance");
+    if (type === "open-menu") {
+      setMinimized(false);
+      storage.set("localStorage", MINIMIZED_KEY, "0");
+      if (!menuOpen) toggleMenu();
+      return;
+    }
     if (minimized) return;
-    if (type === "copied") react("happy");
-    if (type === "project" && title && !isBusy()) {
-      const lines = script.project;
-      say(fill(lines[Math.floor(Math.random() * lines.length)], { title }), {
-        mood: "happy",
-        actions: [{ label: script.menu.contact, action: "contact" }],
-      });
+
+    // On phones Bit only changes its face; no bubbles over the content.
+    const comment = (text, opts = {}) => (chatty ? say(text, opts) : react(opts.mood ?? "talking"));
+
+    switch (type) {
+      case "copied":
+        return react("happy");
+      case "listening":
+        if (mood === "idle" || mood === "listening") react("listening");
+        return;
+      case "sending":
+        clearTimeout(timers.current.mood);
+        return setMood("thinking");
+      case "sent":
+        return comment(script.say.sent, { mood: "happy" });
+      case "mailto":
+        return comment(script.say.mailto, { mood: "happy" });
+      case "error":
+        return comment(script.say.sendError, {
+          mood: "sad",
+          actions: [{ label: script.copyAction, action: "copy" }],
+        });
+      case "run":
+        return comment(script.say.run, { mood: "happy" });
+      case "unavailable":
+        return comment(script.say.unavailable, { mood: "sad", ms: 4500 });
+      case "pinged":
+        return comment(script.say.pinged, { mood: "happy" });
+      case "tech":
+        if (!isBusy()) comment(fill(script.say.tech, { tech }));
+        return;
+      case "project": {
+        if (!title || isBusy()) return;
+        const lines = script.project;
+        return comment(fill(lines[Math.floor(Math.random() * lines.length)], { title }), {
+          mood: "happy",
+          actions: [{ label: script.menu.contact, action: "contact" }],
+        });
+      }
+      default:
     }
   });
 
@@ -299,6 +353,11 @@ export default function Bit() {
       window.removeEventListener("keydown", onKey);
     };
   }, []);
+
+  // Let the nav know whether Bit is hidden.
+  useEffect(() => {
+    window.dispatchEvent(new CustomEvent(BIT_STATE_EVENT, { detail: { minimized } }));
+  }, [minimized]);
 
   // --- falls asleep when nobody moves, wakes up on any activity ----------
   const nap = useEffectEvent(() => {
@@ -358,12 +417,6 @@ export default function Bit() {
     };
   }, [visible, minimized]);
 
-  // --- menu ---------------------------------------------------------------
-  const closeMenu = (restoreFocus) => {
-    setMenuOpen(false);
-    if (restoreFocus) buttonRef.current?.focus();
-  };
-
   // Click outside closes the menu.
   useEffect(() => {
     if (!menuOpen) return;
@@ -373,15 +426,6 @@ export default function Bit() {
     window.addEventListener("pointerdown", onDown);
     return () => window.removeEventListener("pointerdown", onDown);
   }, [menuOpen]);
-
-  const toggleMenu = () => {
-    if (menuOpen) return closeMenu(false);
-    tour.current = null;
-    clearTimeout(timers.current.message);
-    setMessage(null);
-    if (mood === "sleeping") setMood("idle");
-    setMenuOpen(true);
-  };
 
   const restore = () => {
     setMinimized(false);

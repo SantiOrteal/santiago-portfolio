@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { AlertCircle, ArrowRight, Loader2, RotateCcw } from "lucide-react";
 import { isContactConfigured, sendMessage } from "../lib/sendMessage";
 import { profile } from "../data/content";
+import { emitBit } from "../lib/bit";
 
 const MAX_MESSAGE = 2000;
 const MIN_FILL_MS = 2500; // real people take longer than this to fill a form
@@ -95,6 +96,12 @@ export default function ContactForm({ t, language }) {
   const [touched, setTouched] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | sending | success | error | mailto
+
+  // Bit follows along: thinking while sending, then happy or sad.
+  useEffect(() => {
+    const events = { sending: "sending", success: "sent", error: "error", mailto: "mailto" };
+    if (events[status]) emitBit(events[status]);
+  }, [status]);
 
   const errors = validate(values, t);
   const showError = (field) => (touched[field] || submitted) && errors[field];
@@ -192,6 +199,7 @@ export default function ContactForm({ t, language }) {
       ref={formRef}
       noValidate
       onSubmit={handleSubmit}
+      onFocus={() => status === "idle" && emitBit("listening")}
       aria-busy={sending}
       className="relative rounded-xl border border-border-soft bg-surface-2/40 p-5 sm:p-6 md:p-7"
     >
