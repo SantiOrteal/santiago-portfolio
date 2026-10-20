@@ -485,7 +485,7 @@ export default function Bit() {
             aria-haspopup="menu"
             aria-expanded={menuOpen}
             // the frosted backdrop keeps Bit readable over text and images
-            className="bit-enter bit-button pointer-events-auto block h-[74px] w-[64px] rounded-[22px] border border-border-soft bg-surface/85 px-1.5 pb-1 pt-2 shadow-[0_14px_40px_-12px_rgba(0,0,0,0.75)] outline-offset-4 backdrop-blur-md transition-colors duration-300 hover:border-border md:h-[98px] md:w-[86px] md:px-2 md:pb-1.5 md:pt-3"
+            className="bit-enter bit-button pointer-events-auto block h-[74px] w-[64px] rounded-[22px] border border-blue/45 bg-surface/90 px-1.5 pb-1 pt-2 shadow-[0_14px_40px_-12px_rgba(0,0,0,0.75),0_0_28px_-6px_rgba(91,141,239,0.55)] outline-offset-4 backdrop-blur-md transition-[border-color,box-shadow] duration-300 hover:border-blue hover:shadow-[0_14px_40px_-12px_rgba(0,0,0,0.75),0_0_36px_-4px_rgba(91,141,239,0.7)] md:h-[98px] md:w-[86px] md:px-2 md:pb-1.5 md:pt-3"
           >
             <BitFace mood={mood} />
           </button>
