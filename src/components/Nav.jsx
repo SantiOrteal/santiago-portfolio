@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { SquareTerminal } from "lucide-react";
+import { Bot, SquareTerminal } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 import { getContent, profile } from "../data/content";
 import { useLanguage } from "../context/LanguageContext";
 import { useScrollProgress, useScrollSpy } from "../hooks/useScroll";
 import { openTerminal, shortcutLabel } from "../lib/terminal";
+import { BIT_STATE_EVENT, MINIMIZED_KEY, emitBit, storage } from "../lib/bit";
 
 const ids = ["about", "experience", "projects", "skills", "homelab", "contact"];
 
@@ -20,6 +21,14 @@ export default function Nav() {
   const progressRef = useRef(null);
   const navRef = useRef(null);
   const [pill, setPill] = useState(null);
+
+  // When Bit is hidden, the nav offers a way to bring it back.
+  const [bitHidden, setBitHidden] = useState(() => storage.get("localStorage", MINIMIZED_KEY) === "1");
+  useEffect(() => {
+    const onState = (e) => setBitHidden(e.detail.minimized);
+    window.addEventListener(BIT_STATE_EVENT, onState);
+    return () => window.removeEventListener(BIT_STATE_EVENT, onState);
+  }, []);
 
   useScrollProgress(
     useCallback(() => {
@@ -98,6 +107,17 @@ export default function Nav() {
         </nav>
 
         <div className="hidden items-center gap-4 lg:flex">
+          {bitHidden && (
+            <button
+              type="button"
+              onClick={() => emitBit("open-menu")}
+              aria-label={content.bit.restoreLabel}
+              title={content.bit.restoreLabel}
+              className="bit-pop text-ink-muted transition-[color,transform] duration-300 hover:-translate-y-0.5 hover:text-blue"
+            >
+              <Bot size={18} strokeWidth={1.75} />
+            </button>
+          )}
           <button
             type="button"
             onClick={openTerminal}
@@ -182,6 +202,19 @@ export default function Nav() {
             ))}
             <div className="mt-3 flex items-center justify-between border-t border-border-soft pt-5">
               <div className="flex gap-5">
+                {bitHidden && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false);
+                      emitBit("open-menu");
+                    }}
+                    aria-label={content.bit.restoreLabel}
+                    className="text-ink-muted hover:text-blue"
+                  >
+                    <Bot size={20} strokeWidth={1.75} />
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => {

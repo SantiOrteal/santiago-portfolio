@@ -390,3 +390,431 @@ html:has(dialog[open]) {
     animation: sheet-out 0.28s ease-in both;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Bit, the mascot. Mood classes (.bit-happy, .bit-dance…) live on the SVG
+   and pick the animation; the eyes follow the cursor through --ex / --ey.
+--------------------------------------------------------------------------- */
+.bit-svg * {
+  transform-box: fill-box;
+}
+.bit-body {
+  transform-origin: 50% 100%;
+  animation: float-y 4.5s ease-in-out infinite;
+}
+.bit-shadow {
+  transform-origin: center;
+  animation: bit-shadow 4.5s ease-in-out infinite;
+}
+.bit-eyes {
+  transform: translate(var(--ex, 0px), var(--ey, 0px));
+  transition: transform 0.25s var(--ease-out-expo);
+}
+.bit-eyes rect {
+  transform-origin: center;
+  animation: bit-blink 5s infinite;
+}
+.bit-mouth {
+  transform-origin: center;
+  animation: bit-talk 0.28s ease-in-out infinite alternate;
+}
+.bit-arm-l,
+.bit-arm-r {
+  transform-origin: 50% 10%;
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.bit-led {
+  transform-origin: center;
+}
+
+/* hover: waves hello */
+.bit-button:hover .bit-arm-r,
+.bit-happy .bit-arm-r {
+  animation: bit-wave 0.9s ease-in-out 2;
+}
+.bit-happy .bit-body {
+  animation: bit-hop 0.6s var(--ease-out-expo) 2;
+}
+.bit-thinking .bit-led {
+  animation: bit-led-pulse 0.9s ease-in-out infinite;
+}
+.bit-sad .bit-body {
+  animation: none;
+  transform: translateY(2px) rotate(-3deg);
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.bit-sleeping .bit-body {
+  animation: bit-breathe 3.2s ease-in-out infinite;
+}
+.bit-zz {
+  animation: bit-zz 2.4s ease-in-out infinite;
+}
+.bit-dance .bit-body {
+  animation: bit-dance 0.8s ease-in-out 4;
+}
+.bit-dance .bit-arm-l {
+  animation: bit-wave-l 0.4s ease-in-out 8 alternate;
+}
+.bit-dance .bit-arm-r {
+  animation: bit-wave 0.4s ease-in-out 8 alternate;
+}
+
+.bit-enter {
+  animation: bit-enter 0.9s var(--ease-out-expo) both;
+}
+.bit-pop {
+  transform-origin: bottom right;
+  animation: bit-pop 0.45s var(--ease-out-expo) both;
+}
+
+@keyframes bit-shadow {
+  50% {
+    transform: scaleX(0.82);
+    opacity: 0.6;
+  }
+}
+@keyframes bit-blink {
+  0%,
+  94%,
+  100% {
+    transform: scaleY(1);
+  }
+  97% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes bit-talk {
+  to {
+    transform: scaleY(2.2);
+  }
+}
+@keyframes bit-wave {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-150deg);
+  }
+}
+@keyframes bit-wave-l {
+  to {
+    transform: rotate(150deg);
+  }
+}
+@keyframes bit-hop {
+  40% {
+    transform: translateY(-9px) scale(1.02, 0.98);
+  }
+}
+@keyframes bit-led-pulse {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.8);
+  }
+}
+@keyframes bit-breathe {
+  50% {
+    transform: translateY(1.5px) scaleY(0.98);
+  }
+}
+@keyframes bit-zz {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(2px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+@keyframes bit-dance {
+  25% {
+    transform: rotate(-8deg) translateY(-4px);
+  }
+  75% {
+    transform: rotate(8deg) translateY(-4px);
+  }
+}
+@keyframes bit-enter {
+  from {
+    opacity: 0;
+    transform: translateY(40px) scale(0.8);
+  }
+}
+@keyframes bit-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Interactive sections
+--------------------------------------------------------------------------- */
+/* keyboard users can stop the strip too */
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* homelab status LEDs breathe out of sync, like a real rack */
+.led-blink {
+  animation: led-blink 3s ease-in-out infinite;
+}
+@keyframes led-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* brief outline on the element an "evidence" link or the marquee points to */
+.flash-target {
+  animation: flash-target 1.6s var(--ease-out-expo);
+}
+@keyframes flash-target {
+  0%,
+  45% {
+    box-shadow:
+      0 0 0 2px rgba(91, 141, 239, 0.75),
+      0 0 40px -6px rgba(91, 141, 239, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 2px rgba(91, 141, 239, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   "How I work" illustrations (SkillVisuals.jsx) and panel transitions
+--------------------------------------------------------------------------- */
+@keyframes sv-autoplay {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.sv-swap {
+  animation: sv-swap 0.55s var(--ease-out-expo) both;
+}
+@keyframes sv-swap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.sv-chip {
+  animation: sv-swap 0.45s var(--ease-out-expo) both;
+}
+
+.sv-sort,
+.sv-ping,
+.sv-hub,
+.sv-stage,
+.sv-progress {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 01 · table */
+.sv-scan {
+  animation: sv-scan 6s var(--ease-out-expo) infinite;
+}
+@keyframes sv-scan {
+  0%,
+  16% {
+    transform: translateY(0);
+  }
+  20%,
+  36% {
+    transform: translateY(25px);
+  }
+  40%,
+  56% {
+    transform: translateY(50px);
+  }
+  60%,
+  76% {
+    transform: translateY(75px);
+  }
+  80%,
+  100% {
+    transform: translateY(100px);
+  }
+}
+.sv-sort {
+  animation: sv-sort 3s ease-in-out infinite;
+}
+@keyframes sv-sort {
+  0%,
+  40% {
+    transform: rotate(0deg);
+  }
+  50%,
+  90% {
+    transform: rotate(180deg);
+  }
+}
+.sv-pill {
+  animation: sv-pill 2.4s ease-in-out infinite;
+}
+@keyframes sv-pill {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* 02 · trace */
+.sv-draw {
+  stroke-dasharray: 420;
+  animation: sv-draw 5s ease-in-out infinite;
+}
+@keyframes sv-draw {
+  0% {
+    stroke-dashoffset: 420;
+    opacity: 1;
+  }
+  45%,
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+.sv-ping {
+  animation: sv-ping 1.6s ease-out infinite;
+}
+@keyframes sv-ping {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+.sv-log {
+  animation: sv-log 5s ease-out infinite both;
+}
+@keyframes sv-log {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  8%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 03 · pipeline: one 4.6 s run from idea to deploy */
+.sv-progress {
+  transform-origin: left center;
+  animation: sv-progress 4.6s ease-in-out infinite;
+}
+@keyframes sv-progress {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  70%,
+  88% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+.sv-travel {
+  animation: sv-travel 4.6s ease-in-out infinite;
+}
+@keyframes sv-travel {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(240px);
+    opacity: 1;
+  }
+  85%,
+  100% {
+    transform: translateX(240px);
+    opacity: 0;
+  }
+}
+.sv-stage {
+  opacity: 0;
+  animation: sv-stage 4.6s ease-out infinite;
+}
+@keyframes sv-stage {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  8%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85%,
+  100% {
+    opacity: 0;
+  }
+}
+.sv-live {
+  animation: sv-live 4.6s ease-out infinite;
+}
+@keyframes sv-live {
+  0%,
+  68% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  74%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 04 · automation flow */
+.sv-flow {
+  stroke-dasharray: 12 180;
+  animation: sv-flow 2.2s linear infinite;
+}
+@keyframes sv-flow {
+  from {
+    stroke-dashoffset: 12;
+  }
+  to {
+    stroke-dashoffset: -110;
+  }
+}
+.sv-hub {
+  animation: sv-hub 2.2s ease-out infinite;
+}
+@keyframes sv-hub {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}

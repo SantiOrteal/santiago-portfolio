@@ -27,6 +27,7 @@ export const COMMANDS = [
   "linkedin",
   "goto",
   "lang",
+  "bit",
   "clear",
   "exit",
 ];
@@ -157,6 +158,10 @@ const handlers = {
       lines: [text(getContent(next).terminal.langChanged, "ok")],
       action: { type: "lang", value: next },
     };
+  },
+
+  bit(_, { c }) {
+    return { lines: [text(c.terminal.bitCalled, "ok")], action: { type: "bit" } };
   },
 
   clear() {

@@ -6,12 +6,12 @@ name: CI
 
 # ── When it runs ────────────────────────────────────────────────────────────
 on:
-  # Every push to master…
+  # Every push to master or dev…
   push:
-    branches: [master]
-  # …and every pull request (from any branch) that targets master.
+    branches: [master, dev]
+  # …and every pull request (from any branch) that targets them.
   pull_request:
-    branches: [master]
+    branches: [master, dev]
 
 # If you push twice in a row to the same branch, cancel the older run.
 concurrency:

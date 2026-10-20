@@ -40,7 +40,7 @@ function Headline({ text, accent }) {
 
 export default function Hero() {
   const { language } = useLanguage();
-  const { hero } = getContent(language);
+  const { hero, homelab } = getContent(language);
   const spotRef = useSpotlight();
   const ctaRef = useMagnetic(0.3);
 
@@ -127,11 +127,8 @@ export default function Hero() {
         <CodeWindow
           role={profile.role}
           focus={hero.codeFocus}
-          labels={{
-            compiling: hero.compiling,
-            compiled: hero.compiled,
-            errors: hero.errors,
-          }}
+          homelab={homelab.groups}
+          labels={hero}
         />
       </div>
 
