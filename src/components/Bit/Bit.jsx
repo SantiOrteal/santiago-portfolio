@@ -484,8 +484,8 @@ export default function Bit() {
             aria-label={script.buttonLabel}
             aria-haspopup="menu"
             aria-expanded={menuOpen}
-            // the frosted backdrop keeps Bit readable over text and images
-            className="bit-enter bit-button pointer-events-auto block h-[74px] w-[64px] rounded-[22px] border border-border-soft bg-surface/85 px-1.5 pb-1 pt-2 shadow-[0_14px_40px_-12px_rgba(0,0,0,0.75)] outline-offset-4 backdrop-blur-md transition-colors duration-300 hover:border-border md:h-[98px] md:w-[86px] md:px-2 md:pb-1.5 md:pt-3"
+            // no card: Bit floats free; the drop shadow keeps it readable over text
+            className="bit-enter bit-button pointer-events-auto block h-[66px] w-[56px] rounded-2xl outline-offset-4 drop-shadow-[0_8px_18px_rgba(0,0,0,0.65)] transition-[filter] duration-300 hover:drop-shadow-[0_0_14px_rgba(91,141,239,0.6)] md:h-[92px] md:w-[78px]"
           >
             <BitFace mood={mood} />
           </button>

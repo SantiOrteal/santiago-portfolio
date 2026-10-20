@@ -353,8 +353,7 @@ const localizedContent = {
           ],
           tags: ["React 18", "Vite", "Tailwind CSS", "Motion"],
           kind: "Mi empresa",
-          // Descomenta cuando el sitio esté publicado:
-          // demo: "https://www.dreamboxdev.com",
+          demo: "https://dreamboxdev.mx",
         },
         {
           title: "StoryFrame",
@@ -754,8 +753,7 @@ const localizedContent = {
           ],
           tags: ["React 18", "Vite", "Tailwind CSS", "Motion"],
           kind: "My company",
-          // Descomenta cuando el sitio esté publicado:
-          // demo: "https://www.dreamboxdev.com",
+          demo: "https://dreamboxdev.mx",
         },
         {
           title: "StoryFrame",
