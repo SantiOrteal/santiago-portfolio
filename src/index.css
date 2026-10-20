@@ -587,3 +587,234 @@ html:has(dialog[open]) {
     box-shadow: 0 0 0 2px rgba(91, 141, 239, 0);
   }
 }
+
+/* ---------------------------------------------------------------------------
+   "How I work" illustrations (SkillVisuals.jsx) and panel transitions
+--------------------------------------------------------------------------- */
+@keyframes sv-autoplay {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.sv-swap {
+  animation: sv-swap 0.55s var(--ease-out-expo) both;
+}
+@keyframes sv-swap {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.sv-chip {
+  animation: sv-swap 0.45s var(--ease-out-expo) both;
+}
+
+.sv-sort,
+.sv-ping,
+.sv-hub,
+.sv-stage,
+.sv-progress {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* 01 · table */
+.sv-scan {
+  animation: sv-scan 6s var(--ease-out-expo) infinite;
+}
+@keyframes sv-scan {
+  0%,
+  16% {
+    transform: translateY(0);
+  }
+  20%,
+  36% {
+    transform: translateY(25px);
+  }
+  40%,
+  56% {
+    transform: translateY(50px);
+  }
+  60%,
+  76% {
+    transform: translateY(75px);
+  }
+  80%,
+  100% {
+    transform: translateY(100px);
+  }
+}
+.sv-sort {
+  animation: sv-sort 3s ease-in-out infinite;
+}
+@keyframes sv-sort {
+  0%,
+  40% {
+    transform: rotate(0deg);
+  }
+  50%,
+  90% {
+    transform: rotate(180deg);
+  }
+}
+.sv-pill {
+  animation: sv-pill 2.4s ease-in-out infinite;
+}
+@keyframes sv-pill {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* 02 · trace */
+.sv-draw {
+  stroke-dasharray: 420;
+  animation: sv-draw 5s ease-in-out infinite;
+}
+@keyframes sv-draw {
+  0% {
+    stroke-dashoffset: 420;
+    opacity: 1;
+  }
+  45%,
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+.sv-ping {
+  animation: sv-ping 1.6s ease-out infinite;
+}
+@keyframes sv-ping {
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+.sv-log {
+  animation: sv-log 5s ease-out infinite both;
+}
+@keyframes sv-log {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  8%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 03 · pipeline: one 4.6 s run from idea to deploy */
+.sv-progress {
+  transform-origin: left center;
+  animation: sv-progress 4.6s ease-in-out infinite;
+}
+@keyframes sv-progress {
+  0% {
+    transform: scaleX(0);
+    opacity: 1;
+  }
+  70%,
+  88% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+.sv-travel {
+  animation: sv-travel 4.6s ease-in-out infinite;
+}
+@keyframes sv-travel {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateX(240px);
+    opacity: 1;
+  }
+  85%,
+  100% {
+    transform: translateX(240px);
+    opacity: 0;
+  }
+}
+.sv-stage {
+  opacity: 0;
+  animation: sv-stage 4.6s ease-out infinite;
+}
+@keyframes sv-stage {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  8%,
+  70% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  85%,
+  100% {
+    opacity: 0;
+  }
+}
+.sv-live {
+  animation: sv-live 4.6s ease-out infinite;
+}
+@keyframes sv-live {
+  0%,
+  68% {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  74%,
+  92% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* 04 · automation flow */
+.sv-flow {
+  stroke-dasharray: 12 180;
+  animation: sv-flow 2.2s linear infinite;
+}
+@keyframes sv-flow {
+  from {
+    stroke-dashoffset: 12;
+  }
+  to {
+    stroke-dashoffset: -110;
+  }
+}
+.sv-hub {
+  animation: sv-hub 2.2s ease-out infinite;
+}
+@keyframes sv-hub {
+  from {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1.18);
+    opacity: 0;
+  }
+}
